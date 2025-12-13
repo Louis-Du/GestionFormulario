@@ -1,3 +1,4 @@
+package com.mycompany.gestionformulario2;
 
 public class iLogin extends javax.swing.JFrame {
 

@@ -1,5 +1,7 @@
 
-import com.mycompany.gestionformulario2.ExcelViewer;
+package com.mycompany.gestionformulario2;
+
+import com.mycompany.gestionformulario2.Evento;
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
 
@@ -45,6 +47,11 @@ public class iAdminEvento extends javax.swing.JFrame {
         });
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         lblNombreEvento.setText("Nombre del evento:");
 
@@ -209,6 +216,31 @@ public class iAdminEvento extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        String nombreEvento = txtNombreEvento.getText().trim();
+        String fechaHora = txtFechaHora.getText().trim();
+        String lugar = txtLugar.getText().trim();
+        String codigoAsistencia = txtCodigoAsistencia.getText().trim();
+
+        // Validaciones simples
+        if (nombreEvento.isEmpty() || fechaHora.isEmpty() || lugar.isEmpty() || codigoAsistencia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Evento evento = new Evento(
+            nombreEvento,
+            fechaHora,
+            lugar,
+            codigoAsistencia
+        );
+
+        JOptionPane.showMessageDialog(this, "Evento creado correctamente.\nYa está listo para recibir registros.","Éxito",JOptionPane.INFORMATION_MESSAGE);
+
+        // Opcional: cerrar o limpiar
+        this.dispose();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+            
     private void ajustarColumnas(JTable tabla) {
         for (int col = 0; col < tabla.getColumnCount(); col++) {
             TableColumn column = tabla.getColumnModel().getColumn(col);
