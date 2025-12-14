@@ -1,17 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
- */
 
 package com.mycompany.gestionformulario2;
 
 /**
- *
- * @author SENA
+ * Clase principal del sistema de gestión de formularios.
+ * Contiene el método main que inicia la aplicación mostrando la ventana de login.
  */
 public class GestionFormulario2 {
-
+    /**
+     * Método principal que arranca la aplicación.
+     * Crea e instancia la ventana de login (iLogin) y la hace visible al usuario.
+     * @param args Argumentos de línea de comandos (no utilizados)
+     */
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        // Crea una nueva instancia de la interfaz de login y la muestra
+        new iLogin().setVisible(true);
     }
 }
+
