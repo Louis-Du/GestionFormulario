@@ -2,23 +2,48 @@
 package com.mycompany.gestionformulario2;
 
 import com.mycompany.gestionformulario2.Evento;
+
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableCellRenderer;
 
 import java.awt.Component;
 import java.io.InputStream;
 
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableCellRenderer;
-
-
 public class iAdminEvento extends javax.swing.JFrame {
+    
 
     public iAdminEvento() {
         initComponents();
+
+        modeloRegistros = new DefaultTableModel(
+            new Object[]{
+                "Nombre",
+                "Tipo Documento",
+                "N° Documento",
+                "Programa",
+                "Ficha",
+                "Centro",
+                "Celular",
+                "Correo",
+                "Fecha y hora",
+                "Estado"
+            },
+            0
+        );
+
+        tblRegistros.setModel(modeloRegistros);
+
+        cargarRegistrosEnTabla();
+
         this.setExtendedState(iLogin.MAXIMIZED_BOTH);
         this.setVisible(true);
     }
+    
+    private DefaultTableModel modeloRegistros;
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -38,6 +63,8 @@ public class iAdminEvento extends javax.swing.JFrame {
         txtCodigoAsistencia = new javax.swing.JTextField();
         btnAdminEvent = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblRegistros = new javax.swing.JTable();
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,10 +116,10 @@ public class iAdminEvento extends javax.swing.JFrame {
                             .addComponent(txtFechaHora)
                             .addComponent(txtNombreEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(124, 124, 124))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCrearEventoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jDialogCrearEventoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jDialogCrearEventoLayout.setVerticalGroup(
             jDialogCrearEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,8 +141,8 @@ public class iAdminEvento extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtCodigoAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(jDialogCrearEventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -141,31 +168,66 @@ public class iAdminEvento extends javax.swing.JFrame {
             }
         });
 
+        tblRegistros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Tipo Doc", "N° Doc", "Programa", "Ficha", "Centro", "Celular", "Correo", "Fecha/Hora", "Estado"
+            }
+        ));
+        jScrollPane2.setViewportView(tblRegistros);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnAdminEvent))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAdminEvent)
+                .addGap(14, 14, 14))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addGap(38, 38, 38)
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdminEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cargarRegistrosEnTabla() {
+        modeloRegistros.setRowCount(0);
+
+        for (Registro r : GestorRegistros.obtenerRegistros()) {
+            modeloRegistros.addRow(new Object[]{
+                r.getNombre(),
+                r.getTipoDocumento(),
+                r.getNumeroDocumento(),
+                r.getPrograma(),
+                r.getFicha(),
+                r.getCentro(),
+                r.getCelular(),
+                r.getCorreo(),
+                r.getFechaHoraRegistro(),
+                r.getEstado()
+            });
+        }
+    }
 
     private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEventActionPerformed
         mostrarExcelEnVistaPrevia();
@@ -235,10 +297,17 @@ public class iAdminEvento extends javax.swing.JFrame {
             codigoAsistencia
         );
 
-        JOptionPane.showMessageDialog(this, "Evento creado correctamente.\nYa está listo para recibir registros.","Éxito",JOptionPane.INFORMATION_MESSAGE);
+        GestorEventos.registrarEvento(evento);
 
+        JOptionPane.showMessageDialog(
+            this,
+            "Evento creado correctamente.\nListo para recibir registros.",
+            "Éxito",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+        
         // Opcional: cerrar o limpiar
-        this.dispose();
+        jDialogCrearEvento.dispose(); 
     }//GEN-LAST:event_btnAceptarActionPerformed
             
     private void ajustarColumnas(JTable tabla) {
@@ -275,10 +344,13 @@ public class iAdminEvento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNombreEvento;
+    private javax.swing.JTable tblRegistros;
     private javax.swing.JTextField txtCodigoAsistencia;
     private javax.swing.JTextField txtFechaHora;
     private javax.swing.JTextField txtLugar;
     private javax.swing.JTextField txtNombreEvento;
     // End of variables declaration//GEN-END:variables
 }
+

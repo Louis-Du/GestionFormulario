@@ -24,7 +24,11 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.5.1</version>
         </dependency>
-        
+        <dependency>
+            <groupId>unknown.binary</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -32,12 +36,18 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>3.5.1</version>
                 <configuration>
-                    <mainClass>${exec.mainClass}</mainClass>
+                    <mainClass>com.mycompany.gestionformulario2.GestionFormulario2</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    </project>
+    <repositories>
+        <repository>
+            <id>unknown-jars-temp-repo</id>
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <url>file:${project.basedir}/lib</url>
+        </repository>
+    </repositories>
+</project>

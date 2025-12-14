@@ -8,12 +8,12 @@ public class Evento {
     private String codigoAsistencia;
 
     public Evento(String nombre, String fechaHora, String lugar, String codigoAsistencia) {
-    this.nombre = nombre;
-    this.fechaHora = fechaHora;
-    this.lugar = lugar;
-    this.codigoAsistencia = codigoAsistencia;
+        this.nombre = nombre;
+        this.fechaHora = fechaHora;
+        this.lugar = lugar;
+        this.codigoAsistencia = codigoAsistencia;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
