@@ -2,6 +2,7 @@
 package com.mycompany.gestionformulario2;
 
 import com.mycompany.gestionformulario2.Evento;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
@@ -11,6 +12,10 @@ import javax.swing.table.TableCellRenderer;
 
 import java.awt.Component;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
 
 /**
  * Interfaz gráfica de administración de eventos.
@@ -30,6 +35,15 @@ public class iAdminEvento extends javax.swing.JFrame {
     public iAdminEvento() {
         // Inicializa todos los componentes visuales
         initComponents();
+        
+    txtFechaHora.setEditable(false);
+
+    txtFechaHora.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            abrirCalendario();
+        }
+    });
 
         // Crea el modelo de tabla con las columnas para los datos de registro
         modeloRegistros = new DefaultTableModel(
@@ -253,6 +267,53 @@ public class iAdminEvento extends javax.swing.JFrame {
                 r.getEstado()
             });
         }
+    }
+    
+    private void abrirCalendario() {
+        JDialog dialog = new JDialog(this, "Seleccionar fecha y hora", true);
+        dialog.setSize(350, 250);
+        dialog.setLocationRelativeTo(this);
+
+        // 📅 Selector de fecha
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+
+        // ⏰ Selector de hora (Spinner)
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        javax.swing.SpinnerDateModel timeModel =
+                new javax.swing.SpinnerDateModel(calendar.getTime(), null, null, java.util.Calendar.MINUTE);
+
+        javax.swing.JSpinner spinnerHora = new javax.swing.JSpinner(timeModel);
+        javax.swing.JSpinner.DateEditor timeEditor =
+                new javax.swing.JSpinner.DateEditor(spinnerHora, "HH:mm");
+        spinnerHora.setEditor(timeEditor);
+
+        // ✅ Botón aceptar
+        JButton btnOk = new JButton("Aceptar");
+        btnOk.addActionListener(e -> {
+            if (dateChooser.getDate() != null) {
+                SimpleDateFormat fechaFmt = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat horaFmt = new SimpleDateFormat("HH:mm");
+
+                String fecha = fechaFmt.format(dateChooser.getDate());
+                String hora = horaFmt.format(spinnerHora.getValue());
+
+                txtFechaHora.setText(fecha + " " + hora);
+                dialog.dispose();
+            } else {
+                JOptionPane.showMessageDialog(dialog, "Seleccione una fecha");
+            }
+        });
+
+        // 🧱 Layout simple
+        JPanel panel = new JPanel();
+        panel.setLayout(new java.awt.GridLayout(3, 1, 10, 10));
+        panel.add(dateChooser);
+        panel.add(spinnerHora);
+        panel.add(btnOk);
+
+        dialog.add(panel);
+        dialog.setVisible(true);
     }
 
     /**
