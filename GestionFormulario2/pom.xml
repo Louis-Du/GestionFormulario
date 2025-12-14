@@ -25,9 +25,9 @@
             <version>5.5.1</version>
         </dependency>
         <dependency>
-            <groupId>unknown.binary</groupId>
+            <groupId>org.netbeans.external</groupId>
             <artifactId>AbsoluteLayout</artifactId>
-            <version>SNAPSHOT</version>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
     
@@ -45,9 +45,9 @@
     </build>
     <repositories>
         <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
+            <id>netbeans</id>
+            <name>NetBeans Repository</name>
+            <url>https://netbeans.apidesign.org/maven2/</url>
         </repository>
     </repositories>
 </project>
