@@ -1,17 +1,42 @@
 package com.mycompany.gestionformulario2;
 
+import com.mycompany.gestionformulario2.iAdminEvento;
 import javax.swing.JOptionPane;
 
+/**
+ * Interfaz gráfica de inicio de sesión del sistema.
+ * Ventana principal que permite al usuario seleccionar su rol:
+ * - Aprendiz: Estudiantes que asistirán a eventos
+ * - Administrador de Eventos: Gestiona y crea eventos
+ * - Persona Externa: Visitantes o invitados externos
+ * Esta clase extiende JFrame para crear una ventana de aplicación de escritorio.
+ */
 public class iLogin extends javax.swing.JFrame {
 
+    /**
+     * Constructor que inicializa la ventana de login.
+     * Configura los componentes visuales y maximiza la ventana.
+     */
     public iLogin() {
+        // Inicializa todos los componentes gráficos (botones, etiquetas, etc.)
         initComponents();
+        // Maximiza la ventana para que ocupe toda la pantalla
         this.setExtendedState(iLogin.MAXIMIZED_BOTH);
+        // Hace visible la ventana al usuario
         this.setVisible(true);
     }
 
+    /**
+     * Suprime advertencias del compilador sobre operaciones no genéricas.
+     * Este método fue generado automáticamente por el editor visual de NetBeans/IntelliJ.
+     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    /**
+     * Método generado automáticamente que inicializa todos los componentes de la interfaz.
+     * Configura botones, layouts, listeners y propiedades visuales.
+     * NO MODIFICAR MANUALMENTE - Usar el editor visual para cambios.
+     */
     private void initComponents() {
 
         btnAprendiz = new javax.swing.JButton();
@@ -88,21 +113,41 @@ public class iLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método llamado cuando se presiona el botón "Aprendiz".
+     * Actualmente sin implementación - reservado para funcionalidad futura.
+     */
     private void btnAprendizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAprendizActionPerformed
 
     }//GEN-LAST:event_btnAprendizActionPerformed
 
+    /**
+     * Método llamado cuando se presiona el botón "Administrador de Eventos".
+     * Abre la ventana de administración de eventos y cierra la ventana actual.
+     */
     private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEventActionPerformed
+        // Crea una nueva instancia de la ventana de administración de eventos
         iAdminEvento iAdminEvents = new iAdminEvento();
+        // Muestra la ventana de administración
         iAdminEvents.setVisible(true);
+        // Oculta la ventana de login actual
         this.setVisible(false);
     }//GEN-LAST:event_btnAdminEventActionPerformed
 
+    /**
+     * Método llamado cuando se presiona el botón "Persona Externa".
+     * Actualmente sin implementación - reservado para funcionalidad futura.
+     */
     private void btnPersonExternaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonExternaActionPerformed
 
     }//GEN-LAST:event_btnPersonExternaActionPerformed
 
+    /**
+     * Método llamado cuando se presiona el botón "Salir".
+     * Muestra un cuadro de diálogo de confirmación antes de cerrar la aplicación.
+     */
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // Muestra un cuadro de diálogo con opciones Sí/No
         int opcion = JOptionPane.showConfirmDialog(
             this,
             "¿Deseas salir del programa?",
@@ -111,24 +156,32 @@ public class iLogin extends javax.swing.JFrame {
             JOptionPane.QUESTION_MESSAGE
         );
 
+        // Si el usuario confirma, termina la ejecución del programa
         if (opcion == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    /**
+     * Método principal para ejecutar la aplicación de forma independiente.
+     * Utiliza el Event Dispatch Thread (EDT) de Swing para crear la interfaz de forma segura.
+     */
     public static void main(String args[]) {
 
+        // invokeLater asegura que la interfaz se cree en el hilo correcto de Swing
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                // Crea y muestra la ventana de login
                 new iLogin().setVisible(true);
             }
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdminEvent;
-    private javax.swing.JButton btnAprendiz;
-    private javax.swing.JButton btnPersonExterna;
-    private javax.swing.JToggleButton btnSalir;
-    // End of variables declaration//GEN-END:variables
+    // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE//GEN-BEGIN:variables
+    // Estas variables representan los componentes visuales de la interfaz
+    private javax.swing.JButton btnAdminEvent;      // Botón para acceder como administrador
+    private javax.swing.JButton btnAprendiz;        // Botón para acceder como aprendiz
+    private javax.swing.JButton btnPersonExterna;   // Botón para acceder como persona externa
+    private javax.swing.JToggleButton btnSalir;     // Botón para salir de la aplicación
+    // Fin de la declaración de variables//GEN-END:variables
 }
