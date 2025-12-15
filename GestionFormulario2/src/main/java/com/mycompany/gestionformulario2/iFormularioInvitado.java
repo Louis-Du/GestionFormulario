@@ -1,6 +1,13 @@
 package com.mycompany.gestionformulario2;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JComponent;
+import javax.swing.JComboBox;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -11,6 +18,8 @@ import java.time.format.DateTimeFormatter;
 public class iFormularioInvitado extends javax.swing.JFrame {
 
     private Evento eventoSeleccionado;
+    // Bandera para evitar cascada de mensajes
+    private boolean mostrandoError = false;
 
     /**
      * Constructor que recibe el evento al cual se registrará el invitado.
@@ -21,6 +30,7 @@ public class iFormularioInvitado extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(iFormularioInvitado.MAXIMIZED_BOTH);
         cargarDatosEvento();
+        configurarValidacionTiempoReal();
     }
 
     /**
@@ -33,50 +43,241 @@ public class iFormularioInvitado extends javax.swing.JFrame {
     }
 
     /**
-     * Valida que todos los campos del formulario estén completos.
-     * @return true si todos los campos están llenos, false en caso contrario
+     * Valida que el texto contenga solo letras y espacios.
+     * Acepta caracteres acentuados.
+     */
+    private boolean esTextoValido(String texto) {
+        if (texto == null || texto.trim().isEmpty()) return false;
+        return texto.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    }
+
+    /** Valida que el texto contenga solo números. */
+    private boolean esNumeroValido(String texto) {
+        if (texto == null || texto.trim().isEmpty()) return false;
+        return texto.matches("^[0-9]+$");
+    }
+
+    /** Celular: solo números y mínimo 10 dígitos. */
+    private boolean esCelularValido(String celular) {
+        if (celular == null || celular.trim().isEmpty()) return false;
+        if (!celular.matches("^[0-9]+$")) return false;
+        return celular.length() >= 10;
+    }
+
+    /** Email con formato estándar. */
+    private boolean esCorreoValido(String correo) {
+        if (correo == null || correo.trim().isEmpty()) return false;
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+        return correo.matches(regex);
+    }
+
+    /**
+     * Configura validación en tiempo real (al perder foco) para todos los campos.
+     */
+    private void configurarValidacionTiempoReal() {
+        // TextFields
+        agregarValidadorFocoTexto(txtNombre, "nombre", false);
+        agregarValidadorFocoTexto(txtApellidos, "apellidos", false);
+        agregarValidadorFocoTexto(txtNumeroDocumento, "número de documento", false);
+        agregarValidadorFocoTexto(txtPrograma, "programa", false);
+        agregarValidadorFocoTexto(txtFicha, "ficha", true); // Opcional
+        agregarValidadorFocoTexto(txtCentro, "centro", false);
+        agregarValidadorFocoTexto(txtCelular, "celular", false);
+        agregarValidadorFocoTexto(txtCorreo, "correo", false);
+
+        // ComboBox
+        agregarValidadorFocoCombo(cmbTipoVisitante, "tipo de visitante");
+        agregarValidadorFocoCombo(cmbTipoDocumento, "tipo de documento");
+
+        // Acción inmediata opcional al cambiar selección
+        agregarValidadorCombo(cmbTipoVisitante, "tipo de visitante");
+        agregarValidadorCombo(cmbTipoDocumento, "tipo de documento");
+    }
+
+    /** Agrega validación por foco para JTextField. */
+    private void agregarValidadorFocoTexto(JTextField campo, String nombreCampo, boolean esOpcional) {
+        campo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                // Evitar cascada de mensajes
+                if (mostrandoError) return;
+                // Validar al perder foco
+                if (!validarCampo(campo, nombreCampo, esOpcional)) {
+                    mostrandoError = true;
+                    mostrarErrorCampo(campo, mensajeErrorParaCampo(campo, nombreCampo));
+                    mostrandoError = false;
+                }
+            }
+        });
+    }
+
+    /** Agrega validación por foco para JComboBox. */
+    private void agregarValidadorFocoCombo(JComboBox<String> combo, String nombreCampo) {
+        combo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (mostrandoError) return;
+                if (combo.getSelectedIndex() == 0) {
+                    mostrandoError = true;
+                    mostrarErrorCampo(combo, "Debe seleccionar " + nombreCampo + ".");
+                    mostrandoError = false;
+                }
+            }
+        });
+    }
+
+    /** Valida combo también al cambiar la selección. */
+    private void agregarValidadorCombo(JComboBox<String> combo, String nombreCampo) {
+        combo.addActionListener(e -> validarComboEnTiempoReal(combo, nombreCampo));
+    }
+
+    /** Valida un ComboBox en tiempo real. */
+    private void validarComboEnTiempoReal(JComboBox<String> combo, String nombreCampo) {
+        if (combo.getSelectedIndex() == 0) {
+            if (!mostrandoError) {
+                mostrandoError = true;
+                combo.setBackground(new Color(255, 200, 200));
+                JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar " + nombreCampo + ".",
+                    "Error de validación",
+                    JOptionPane.WARNING_MESSAGE);
+                mostrandoError = false;
+            }
+            combo.setSelectedIndex(0);
+            combo.setBackground(Color.WHITE);
+        } else {
+            combo.setBackground(Color.WHITE);
+        }
+    }
+
+    /** Muestra un error y devuelve el foco al componente. */
+    private void mostrarErrorCampo(JComponent comp, String mensaje) {
+        comp.setBackground(new Color(255, 200, 200));
+        JOptionPane.showMessageDialog(this, mensaje, "Error de validación", JOptionPane.WARNING_MESSAGE);
+        comp.requestFocusInWindow();
+        if (comp instanceof JTextField) {
+            ((JTextField) comp).selectAll();
+        }
+        comp.setBackground(Color.WHITE);
+    }
+
+    /** Valida un campo sin mostrar mensajes. */
+    private boolean validarCampo(JTextField campo, String nombreCampo, boolean esOpcional) {
+        String texto = campo.getText().trim();
+        if (esOpcional && texto.isEmpty()) return true;
+        switch (nombreCampo.toLowerCase()) {
+            case "nombre":
+            case "apellidos":
+                return esTextoValido(texto);
+            case "número de documento":
+                return esNumeroValido(texto);
+            case "celular":
+                return esCelularValido(texto);
+            case "correo":
+                return esCorreoValido(texto);
+            case "programa":
+            case "centro":
+                return !texto.isEmpty();
+            case "ficha":
+                return true; // opcional
+            default:
+                return true;
+        }
+    }
+
+    /** Mensaje de error específico para cada campo. */
+    private String mensajeErrorParaCampo(JTextField campo, String nombreCampo) {
+        String texto = campo.getText().trim();
+        switch (nombreCampo.toLowerCase()) {
+            case "nombre":
+                return "El nombre debe contener solo letras y espacios.";
+            case "apellidos":
+                return "Los apellidos deben contener solo letras y espacios.";
+            case "número de documento":
+                return "El número de documento debe contener solo números.";
+            case "celular":
+                if (texto.isEmpty()) return "El celular es requerido.";
+                if (!texto.matches("^[0-9]+$")) return "El celular debe contener solo números.";
+                return "El celular debe tener mínimo 10 dígitos.";
+            case "correo":
+                return "El correo electrónico tiene un formato inválido.";
+            case "programa":
+                return "Debe ingresar el programa de formación.";
+            case "centro":
+                return "Debe ingresar el centro.";
+            default:
+                return "Campo inválido.";
+        }
+    }
+
+    /**
+     * Valida que todos los campos del formulario cumplan las reglas de validación.
+     * @return true si todos los campos son válidos, false en caso contrario
      */
     private boolean validarCampos() {
+        // Validar tipo de visitante
         if (cmbTipoVisitante.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de visitante", "Campo requerido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (txtNombre.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar el nombre", "Campo requerido", JOptionPane.WARNING_MESSAGE);
+
+        // Validar nombre
+        String nombre = txtNombre.getText().trim();
+        if (!esTextoValido(nombre)) {
+            JOptionPane.showMessageDialog(this, "El nombre debe contener solo letras y espacios", "Nombre inválido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (txtApellidos.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar los apellidos", "Campo requerido", JOptionPane.WARNING_MESSAGE);
+
+        // Validar apellidos
+        String apellidos = txtApellidos.getText().trim();
+        if (!esTextoValido(apellidos)) {
+            JOptionPane.showMessageDialog(this, "Los apellidos deben contener solo letras y espacios", "Apellidos inválidos", JOptionPane.WARNING_MESSAGE);
             return false;
         }
+
+        // Validar tipo de documento
         if (cmbTipoDocumento.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de documento", "Campo requerido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (txtNumeroDocumento.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar el número de documento", "Campo requerido", JOptionPane.WARNING_MESSAGE);
+
+        // Validar número de documento
+        String numeroDocumento = txtNumeroDocumento.getText().trim();
+        if (!esNumeroValido(numeroDocumento)) {
+            JOptionPane.showMessageDialog(this, "El número de documento debe contener solo números", "Documento inválido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (txtPrograma.getText().trim().isEmpty()) {
+
+        // Validar programa
+        String programa = txtPrograma.getText().trim();
+        if (programa.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar el programa de formación", "Campo requerido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (txtFicha.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar la ficha", "Campo requerido", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        if (txtCentro.getText().trim().isEmpty()) {
+
+        // Ficha es opcional - no se valida (puede estar vacío)
+
+        // Validar centro
+        String centro = txtCentro.getText().trim();
+        if (centro.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar el centro", "Campo requerido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (txtCelular.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar el celular", "Campo requerido", JOptionPane.WARNING_MESSAGE);
+
+        // Validar celular
+        String celular = txtCelular.getText().trim();
+        if (!esCelularValido(celular)) {
+            JOptionPane.showMessageDialog(this, "El celular debe contener solo números y tener mínimo 10 dígitos", "Celular inválido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (txtCorreo.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar el correo electrónico", "Campo requerido", JOptionPane.WARNING_MESSAGE);
+
+        // Validar correo
+        String correo = txtCorreo.getText().trim();
+        if (!esCorreoValido(correo)) {
+            JOptionPane.showMessageDialog(this, "El correo electrónico tiene un formato inválido", "Correo inválido", JOptionPane.WARNING_MESSAGE);
             return false;
         }
+
         return true;
     }
 
