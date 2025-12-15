@@ -739,9 +739,11 @@ public class iAdminEvento extends javax.swing.JFrame {
             // Exportar usando la clase utilitaria, pasando el objeto Evento completo
             String rutaArchivo = ExportadorExcel.exportarRegistros(registrosFiltrados, eventoCompleto);
             
-            // Mostrar mensaje de éxito
+            // Mostrar mensaje de éxito con ruta y nombre del evento
             JOptionPane.showMessageDialog(this, 
-                "Archivo exportado exitosamente:\n" + rutaArchivo, 
+                "Archivo exportado exitosamente\n" +
+                "Evento: " + eventoCompleto.getNombre() + "\n" +
+                "Ruta: " + rutaArchivo,
                 "Exportación exitosa", 
                 JOptionPane.INFORMATION_MESSAGE);
                 

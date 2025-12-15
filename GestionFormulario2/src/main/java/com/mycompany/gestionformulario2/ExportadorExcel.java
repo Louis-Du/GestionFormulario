@@ -1,13 +1,13 @@
 package com.mycompany.gestionformulario2;
 
 // Importaciones para manejo de archivos y fechas
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-// Importaciones de Apache POI para manipulación de archivos Excel
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -33,8 +33,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * 
  * Estructura del archivo Excel generado:
  * - Fila 0: Evento: [nombre]
- * - Fila 1: Fecha y hora: [fecha/hora]
- * - Fila 2: Lugar: [lugar]
+ * - Fila 1: Lugar: [lugar]
+ * - Fila 2: Fecha y hora: [fecha/hora]
  * - Fila 3: (en blanco)
  * - Fila 4: Encabezados de columnas
  * - Fila 5+: Datos de registros
@@ -109,23 +109,23 @@ public class ExportadorExcel {
         cellEventoValor.setCellValue(evento.getNombre());
         cellEventoValor.setCellStyle(valueStyle);
         
-        // Fila 1: Fecha y hora
+        // Fila 1: Lugar
         Row row1 = sheet.createRow(1);
-        Cell cellFecha = row1.createCell(0);
-        cellFecha.setCellValue("Fecha y hora:");
-        cellFecha.setCellStyle(labelStyle);
-        Cell cellFechaValor = row1.createCell(1);
-        cellFechaValor.setCellValue(evento.getFechaHora());
-        cellFechaValor.setCellStyle(valueStyle);
-        
-        // Fila 2: Lugar
-        Row row2 = sheet.createRow(2);
-        Cell cellLugar = row2.createCell(0);
+        Cell cellLugar = row1.createCell(0);
         cellLugar.setCellValue("Lugar:");
         cellLugar.setCellStyle(labelStyle);
-        Cell cellLugarValor = row2.createCell(1);
+        Cell cellLugarValor = row1.createCell(1);
         cellLugarValor.setCellValue(evento.getLugar());
         cellLugarValor.setCellStyle(valueStyle);
+        
+        // Fila 2: Fecha y hora
+        Row row2 = sheet.createRow(2);
+        Cell cellFecha = row2.createCell(0);
+        cellFecha.setCellValue("Fecha y hora:");
+        cellFecha.setCellStyle(labelStyle);
+        Cell cellFechaValor = row2.createCell(1);
+        cellFechaValor.setCellValue(evento.getFechaHora());
+        cellFechaValor.setCellStyle(valueStyle);
         
         // Fila 3: En blanco (separador visual)
         sheet.createRow(3);
@@ -134,7 +134,7 @@ public class ExportadorExcel {
         
         Row headerRow = sheet.createRow(4);
         String[] columnas = {
-            "Tipo de visitante",
+            "Tipo de invitado",
             "Nombre",
             "Apellidos",
             "Tipo de documento",
@@ -192,7 +192,7 @@ public class ExportadorExcel {
         String fechaActual = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String nombreEventoLimpio = evento.getNombre().replaceAll("[^a-zA-Z0-9]", "_");
         String nombreArchivo = "Evento_" + nombreEventoLimpio + "_" + fechaActual + ".xlsx";
-        String rutaCompleta = System.getProperty("user.home") + "/" + nombreArchivo;
+        String rutaCompleta = System.getProperty("user.home") + File.separator + nombreArchivo;
 
         // ========== ESCRITURA DEL ARCHIVO ==========
         
