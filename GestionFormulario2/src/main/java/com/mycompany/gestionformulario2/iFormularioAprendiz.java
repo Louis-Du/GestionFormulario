@@ -365,6 +365,12 @@ public class iFormularioAprendiz extends javax.swing.JFrame {
 
     // 4. Si pasa todas las validaciones, crear el registro
     try {
+        // Obtener el nombre del evento activo
+        String nombreEvento = "";
+        if (GestorEventos.getEventoActivo() != null) {
+            nombreEvento = GestorEventos.getEventoActivo().getNombre();
+        }
+        
         // Obtener fecha y hora actual
         String fechaHoraActual = java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -381,6 +387,7 @@ public class iFormularioAprendiz extends javax.swing.JFrame {
             centro,
             celular,
             correo,
+            nombreEvento,
             fechaHoraActual,
             "Registrado"
         );

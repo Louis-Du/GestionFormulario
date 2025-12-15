@@ -74,6 +74,7 @@ public class iAdminEvento extends javax.swing.JFrame {
     // ComboBox para seleccionar eventos
     private javax.swing.JComboBox<String> cmbEventos;
     private javax.swing.JLabel lblSelectorEvento;
+    private javax.swing.JButton btnExportarExcel;
 
     /**
      * Configura validación por foco para los campos del diálogo de creación de evento.
@@ -416,17 +417,33 @@ public class iAdminEvento extends javax.swing.JFrame {
                 String eventoSeleccionado = (String) cmbEventos.getSelectedItem();
                 if (eventoSeleccionado != null && !eventoSeleccionado.equals("Seleccione un evento...")) {
                     cargarRegistrosPorEvento(eventoSeleccionado);
+                    // Habilitar botón si hay registros
+                    btnExportarExcel.setEnabled(modeloRegistros.getRowCount() > 0);
                 } else {
                     modeloRegistros.setRowCount(0);
+                    btnExportarExcel.setEnabled(false);
                 }
+            }
+        });
+
+        // Botón Exportar a Excel
+        btnExportarExcel = new javax.swing.JButton();
+        btnExportarExcel.setFont(new java.awt.Font("Ebrima", 0, 14));
+        btnExportarExcel.setText("Exportar a Excel");
+        btnExportarExcel.setEnabled(false); // Deshabilitado por defecto
+        btnExportarExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportarRegistrosAExcel();
             }
         });
 
         // Agregar al contenedor en la parte superior
         getContentPane().add(lblSelectorEvento);
         getContentPane().add(cmbEventos);
+        getContentPane().add(btnExportarExcel);
         lblSelectorEvento.setBounds(20, 10, 180, 25);
         cmbEventos.setBounds(210, 10, 400, 30);
+        btnExportarExcel.setBounds(620, 10, 180, 30);
     }
 
     private void cargarEventosEnCombo() {
@@ -663,6 +680,77 @@ public class iAdminEvento extends javax.swing.JFrame {
 
             // Establece el ancho calculado para la columna
             column.setPreferredWidth(width);
+        }
+    }
+
+    /**
+     * Exporta los registros del evento seleccionado a un archivo Excel.
+     * Solo se ejecuta si hay un evento seleccionado y tiene registros.
+     */
+    private void exportarRegistrosAExcel() {
+        try {
+            // Obtener el nombre del evento seleccionado del ComboBox
+            String nombreEventoSeleccionado = (String) cmbEventos.getSelectedItem();
+            
+            // Validar que hay evento seleccionado
+            if (nombreEventoSeleccionado == null || nombreEventoSeleccionado.equals("Seleccione un evento...")) {
+                JOptionPane.showMessageDialog(this, 
+                    "Por favor seleccione un evento primero", 
+                    "Sin evento", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Buscar el objeto Evento completo en GestorEventos usando el nombre
+            Evento eventoCompleto = null;
+            for (Evento e : GestorEventos.obtenerEventos()) {
+                if (e.getNombre().equals(nombreEventoSeleccionado)) {
+                    eventoCompleto = e;
+                    break;
+                }
+            }
+            
+            // Validar que se encontró el evento
+            if (eventoCompleto == null) {
+                JOptionPane.showMessageDialog(this, 
+                    "No se encontró la información completa del evento", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Obtener registros filtrados del evento actual
+            java.util.List<Registro> registrosFiltrados = new java.util.ArrayList<>();
+            for (Registro r : GestorRegistros.obtenerRegistros()) {
+                if (r.getNombreEvento().equals(nombreEventoSeleccionado)) {
+                    registrosFiltrados.add(r);
+                }
+            }
+            
+            // Validar que hay registros
+            if (registrosFiltrados.isEmpty()) {
+                JOptionPane.showMessageDialog(this, 
+                    "No hay registros para exportar en este evento", 
+                    "Sin datos", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Exportar usando la clase utilitaria, pasando el objeto Evento completo
+            String rutaArchivo = ExportadorExcel.exportarRegistros(registrosFiltrados, eventoCompleto);
+            
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, 
+                "Archivo exportado exitosamente:\n" + rutaArchivo, 
+                "Exportación exitosa", 
+                JOptionPane.INFORMATION_MESSAGE);
+                
+        } catch (java.io.IOException ex) {
+            // Mostrar mensaje de error
+            JOptionPane.showMessageDialog(this, 
+                "Error al exportar: " + ex.getMessage(), 
+                "Error de exportación", 
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 
