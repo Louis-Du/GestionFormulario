@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 public class iInvitado extends javax.swing.JFrame {
 
     private DefaultTableModel modeloEventos;
+    private java.util.List<Evento> eventosLista;
 
     /**
      * Constructor que inicializa la ventana de invitado.
@@ -28,17 +29,19 @@ public class iInvitado extends javax.swing.JFrame {
     private void cargarEventosEnTabla() {
         modeloEventos = (DefaultTableModel) tblEventos.getModel();
         modeloEventos.setRowCount(0); // Limpiar tabla
-        
-        // Obtener evento activo desde GestorEventos
-        Evento eventoActivo = GestorEventos.getEventoActivo();
-        
-        if (eventoActivo != null) {
-            Object[] fila = {
-                eventoActivo.getNombre(),
-                eventoActivo.getFechaHora(),
-                eventoActivo.getLugar()
-            };
-            modeloEventos.addRow(fila);
+
+        // Obtener todos los eventos desde GestorEventos
+        eventosLista = GestorEventos.obtenerEventos();
+
+        if (eventosLista != null) {
+            for (Evento ev : eventosLista) {
+                Object[] fila = {
+                    ev.getNombre(),
+                    ev.getFechaHora(),
+                    ev.getLugar()
+                };
+                modeloEventos.addRow(fila);
+            }
         }
     }
 
@@ -150,9 +153,12 @@ public class iInvitado extends javax.swing.JFrame {
             return;
         }
         
-        // Obtener el evento activo
-        Evento eventoSeleccionado = GestorEventos.getEventoActivo();
-        
+        // Obtener el evento seleccionado desde la tabla
+        Evento eventoSeleccionado = null;
+        if (eventosLista != null && filaSeleccionada >= 0 && filaSeleccionada < eventosLista.size()) {
+            eventoSeleccionado = eventosLista.get(filaSeleccionada);
+        }
+
         if (eventoSeleccionado != null) {
             // Abrir el formulario de registro pasando el evento
             iFormularioInvitado formulario = new iFormularioInvitado(eventoSeleccionado);
