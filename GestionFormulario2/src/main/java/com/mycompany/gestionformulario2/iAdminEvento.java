@@ -79,7 +79,11 @@ public class iAdminEvento extends javax.swing.JFrame {
 
 
     @SuppressWarnings("unchecked")
+<<<<<<< HEAD
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+=======
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
     private void initComponents() {
 
         jDialogCrearEvento = new javax.swing.JDialog();
@@ -241,7 +245,11 @@ public class iAdminEvento extends javax.swing.JFrame {
         );
 
         pack();
+<<<<<<< HEAD
     }// </editor-fold>//GEN-END:initComponents
+=======
+    }// </editor-fold>                        
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
 
     /**
      * Carga todos los registros de asistentes desde el gestor a la tabla visual.
@@ -320,7 +328,11 @@ public class iAdminEvento extends javax.swing.JFrame {
      * Método llamado al presionar el botón "Crear nuevo formulario".
      * Abre un cuadro de diálogo modal para configurar un nuevo evento.
      */
+<<<<<<< HEAD
     private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEventActionPerformed
+=======
+    private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {                                              
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
         // Muestra el archivo Excel de plantilla en vista previa
         mostrarExcelEnVistaPrevia();
         // Configura el tamaño del diálogo
@@ -331,7 +343,11 @@ public class iAdminEvento extends javax.swing.JFrame {
         jDialogCrearEvento.setModal(true);
         // Muestra el diálogo al usuario
         jDialogCrearEvento.setVisible(true);
+<<<<<<< HEAD
     }//GEN-LAST:event_btnAdminEventActionPerformed
+=======
+    }                                             
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
 
     /**
      * Carga y muestra un archivo Excel de plantilla dentro del diálogo de creación de eventos.
@@ -370,20 +386,32 @@ public class iAdminEvento extends javax.swing.JFrame {
      * Método llamado al presionar el botón "Volver".
      * Regresa a la ventana de login y cierra la ventana actual.
      */
+<<<<<<< HEAD
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+=======
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {                                          
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
         // Crea una nueva instancia de la ventana de login
         iLogin iLogin = new iLogin();
         // Muestra la ventana de login
         iLogin.setVisible(true);
         // Oculta la ventana actual de administración
         this.setVisible(false);
+<<<<<<< HEAD
     }//GEN-LAST:event_btnVolverActionPerformed
+=======
+    }                                         
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
 
     /**
      * Método llamado al presionar el botón "Cancelar" en el diálogo de creación.
      * Muestra un cuadro de confirmación antes de cancelar la creación del evento.
      */
+<<<<<<< HEAD
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+=======
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
         // Muestra diálogo de confirmación con opciones OK/Cancelar
         int resultado = JOptionPane.showConfirmDialog(this, "¿Estás seguro que deseas cancelar la cración del formulario?", "Cancelación de formulario", JOptionPane.OK_CANCEL_OPTION);
         if(resultado == JOptionPane.OK_OPTION){
@@ -395,13 +423,21 @@ public class iAdminEvento extends javax.swing.JFrame {
             // Registra en consola la acción realizada
             System.out.println("Creación de formulario CANCELADA por el usuario.");
         }
+<<<<<<< HEAD
     }//GEN-LAST:event_btnCancelarActionPerformed
+=======
+    }                                           
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
 
     /**
      * Método llamado al presionar el botón "Aceptar" en el diálogo de creación.
      * Valida los campos ingresados y crea un nuevo evento en el sistema.
      */
+<<<<<<< HEAD
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+=======
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {                                           
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
         // Obtiene y limpia los valores de los campos de texto
         String nombreEvento = txtNombreEvento.getText().trim();
         String fechaHora = txtFechaHora.getText().trim();
@@ -435,7 +471,11 @@ public class iAdminEvento extends javax.swing.JFrame {
         
         // Cierra el diálogo después de crear el evento
         jDialogCrearEvento.dispose(); 
+<<<<<<< HEAD
     }//GEN-LAST:event_btnAceptarActionPerformed
+=======
+    }                                          
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
             
     /**
      * Ajusta dinámicamente el ancho de las columnas de una tabla según su contenido.
@@ -479,7 +519,11 @@ public class iAdminEvento extends javax.swing.JFrame {
         });
     }
 
+<<<<<<< HEAD
     // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE//GEN-BEGIN:variables
+=======
+    // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE                     
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
     // Botones de acción
     private javax.swing.JButton btnAceptar;           // Botón para confirmar creación de evento
     private javax.swing.JButton btnAdminEvent;        // Botón para abrir diálogo de nuevo evento
@@ -501,6 +545,13 @@ public class iAdminEvento extends javax.swing.JFrame {
     private javax.swing.JTextField txtFechaHora;      // Campo de texto para fecha y hora
     private javax.swing.JTextField txtLugar;          // Campo de texto para lugar
     private javax.swing.JTextField txtNombreEvento;   // Campo de texto para nombre del evento
+<<<<<<< HEAD
     // Fin de la declaración de variables//GEN-END:variables
 }
 
+=======
+    // Fin de la declaración de variables                   
+}
+
+
+>>>>>>> 54d00f9603f4ada335219ac0c12694cc65483728
