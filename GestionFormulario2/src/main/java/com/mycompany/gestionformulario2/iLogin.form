@@ -29,9 +29,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnAdminEvent" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnAprendiz" min="-2" pref="211" max="-2" attributes="0"/>
-                          <Component id="btnPersonExterna" min="-2" pref="211" max="-2" attributes="0"/>
+                          <Component id="btnAdminEvent" min="-2" pref="211" max="-2" attributes="0"/>
+                          <Component id="btnInvitado" min="-2" pref="211" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="btnSalir" alignment="0" min="-2" pref="119" max="-2" attributes="0"/>
@@ -48,27 +47,13 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnAdminEvent" min="-2" pref="48" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnAprendiz" min="-2" pref="48" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnPersonExterna" min="-2" pref="48" max="-2" attributes="0"/>
-              <EmptySpace pref="113" max="32767" attributes="0"/>
+              <Component id="btnInvitado" min="-2" pref="48" max="-2" attributes="0"/>
+              <EmptySpace pref="180" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="btnAprendiz">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Ebrima" size="14" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Aprendiz"/>
-        <Property name="horizontalTextPosition" type="int" value="0"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAprendizActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="btnAdminEvent">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -81,16 +66,16 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdminEventActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnPersonExterna">
+    <Component class="javax.swing.JButton" name="btnInvitado">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Ebrima" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Persona Externa"/>
+        <Property name="text" type="java.lang.String" value="Invitado"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPersonExternaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInvitadoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JToggleButton" name="btnSalir">
