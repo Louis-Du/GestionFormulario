@@ -13,6 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.Component;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -48,8 +49,13 @@ public class iAdminEvento extends javax.swing.JFrame {
         // Obtener el modelo de tabla que ya fue creado en initComponents()
         modeloRegistros = (DefaultTableModel) tblRegistros.getModel();
 
-        // Carga todos los registros existentes en la tabla
-        cargarRegistrosEnTabla();
+        // Inicializar selector de eventos
+        inicializarSelectorEventos();
+
+        // Cargar registros del evento activo (si existe)
+        if (GestorEventos.getEventoActivo() != null) {
+            cargarRegistrosPorEvento(GestorEventos.getEventoActivo().getNombre());
+        }
 
         // Maximiza la ventana
         this.setExtendedState(iLogin.MAXIMIZED_BOTH);
@@ -59,6 +65,10 @@ public class iAdminEvento extends javax.swing.JFrame {
     
     // Modelo de datos para la tabla de registros
     private DefaultTableModel modeloRegistros;
+    
+    // ComboBox para seleccionar eventos
+    private javax.swing.JComboBox<String> cmbEventos;
+    private javax.swing.JLabel lblSelectorEvento;
 
 
     @SuppressWarnings("unchecked")
@@ -263,6 +273,72 @@ public class iAdminEvento extends javax.swing.JFrame {
                 r.getFechaHoraRegistro(),
                 r.getEstado()
             });
+        }
+    }
+
+    // Carga registros filtrados por nombre de evento
+    private void cargarRegistrosPorEvento(String nombreEvento) {
+        modeloRegistros.setRowCount(0);
+        for (Registro r : GestorRegistros.obtenerRegistros()) {
+            if (r.getNombreEvento() != null && r.getNombreEvento().equals(nombreEvento)) {
+                modeloRegistros.addRow(new Object[]{
+                    r.getTipoVisitante(),
+                    r.getNombre(),
+                    r.getApellidos(),
+                    r.getTipoDocumento(),
+                    r.getNumeroDocumento(),
+                    r.getPrograma(),
+                    r.getFicha(),
+                    r.getCentro(),
+                    r.getCelular(),
+                    r.getCorreo(),
+                    r.getFechaHoraRegistro(),
+                    r.getEstado()
+                });
+            }
+        }
+    }
+
+    // Inicializa el selector de eventos y listeners
+    private void inicializarSelectorEventos() {
+        lblSelectorEvento = new javax.swing.JLabel();
+        lblSelectorEvento.setFont(new java.awt.Font("Ebrima", 1, 14));
+        lblSelectorEvento.setText("Seleccionar Evento:");
+
+        cmbEventos = new javax.swing.JComboBox<>();
+        cmbEventos.setFont(new java.awt.Font("Ebrima", 0, 14));
+
+        // Cargar eventos
+        cargarEventosEnCombo();
+
+        // Listener de selección
+        cmbEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String eventoSeleccionado = (String) cmbEventos.getSelectedItem();
+                if (eventoSeleccionado != null && !eventoSeleccionado.equals("Seleccione un evento...")) {
+                    cargarRegistrosPorEvento(eventoSeleccionado);
+                } else {
+                    modeloRegistros.setRowCount(0);
+                }
+            }
+        });
+
+        // Agregar al contenedor en la parte superior
+        getContentPane().add(lblSelectorEvento);
+        getContentPane().add(cmbEventos);
+        lblSelectorEvento.setBounds(20, 10, 180, 25);
+        cmbEventos.setBounds(210, 10, 400, 30);
+    }
+
+    private void cargarEventosEnCombo() {
+        cmbEventos.removeAllItems();
+        cmbEventos.addItem("Seleccione un evento...");
+        java.util.List<Evento> eventos = GestorEventos.obtenerEventos();
+        for (Evento e : eventos) {
+            cmbEventos.addItem(e.getNombre());
+        }
+        if (GestorEventos.getEventoActivo() != null) {
+            cmbEventos.setSelectedItem(GestorEventos.getEventoActivo().getNombre());
         }
     }
     

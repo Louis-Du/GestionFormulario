@@ -360,6 +360,9 @@ public class iFormularioInvitado extends javax.swing.JFrame {
         String celular = txtCelular.getText().trim();
         String correo = txtCorreo.getText().trim();
 
+        // Obtener nombre del evento
+        String nombreEvento = eventoSeleccionado.getNombre();
+
         // Obtener fecha y hora actual
         LocalDateTime ahora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -380,6 +383,7 @@ public class iFormularioInvitado extends javax.swing.JFrame {
             centro,
             celular,
             correo,
+            nombreEvento,
             fechaHoraRegistro,
             estado
         );
