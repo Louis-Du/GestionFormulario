@@ -13,6 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.Component;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -32,6 +33,9 @@ public class iAdminEvento extends javax.swing.JFrame {
      * Constructor que inicializa la ventana de administración de eventos.
      * Configura la tabla de registros con sus columnas y carga los datos existentes.
      */
+    // Bandera para evitar cascada de mensajes en este JFrame
+    private boolean mostrandoError = false;
+
     public iAdminEvento() {
         // Inicializa todos los componentes visuales
         initComponents();
@@ -48,17 +52,122 @@ public class iAdminEvento extends javax.swing.JFrame {
         // Obtener el modelo de tabla que ya fue creado en initComponents()
         modeloRegistros = (DefaultTableModel) tblRegistros.getModel();
 
-        // Carga todos los registros existentes en la tabla
-        cargarRegistrosEnTabla();
+        // Inicializar selector de eventos
+        inicializarSelectorEventos();
+
+        // Cargar registros del evento activo (si existe)
+        if (GestorEventos.getEventoActivo() != null) {
+            cargarRegistrosPorEvento(GestorEventos.getEventoActivo().getNombre());
+        }
 
         // Maximiza la ventana
         this.setExtendedState(iLogin.MAXIMIZED_BOTH);
         // Hace visible la ventana
         this.setVisible(true);
+        // Validación inmediata por foco para creación de eventos
+        configurarValidacionCrearEvento();
     }
     
     // Modelo de datos para la tabla de registros
     private DefaultTableModel modeloRegistros;
+    
+    // ComboBox para seleccionar eventos
+    private javax.swing.JComboBox<String> cmbEventos;
+    private javax.swing.JLabel lblSelectorEvento;
+
+    /**
+     * Configura validación por foco para los campos del diálogo de creación de evento.
+     */
+    private void configurarValidacionCrearEvento() {
+        txtNombreEvento.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (mostrandoError) return;
+                String v = txtNombreEvento.getText().trim();
+                if (!esNombreValido(v)) {
+                    mostrandoError = true;
+                    JOptionPane.showMessageDialog(iAdminEvento.this,
+                        "El nombre del evento es inválido.\nDebe tener al menos 5 caracteres.",
+                        "Nombre inválido",
+                        JOptionPane.WARNING_MESSAGE);
+                    txtNombreEvento.requestFocusInWindow();
+                    txtNombreEvento.selectAll();
+                    mostrandoError = false;
+                }
+            }
+        });
+
+        txtFechaHora.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (mostrandoError) return;
+                String v = txtFechaHora.getText().trim();
+                // No validar fecha vacía en focusLost; solo en botón Aceptar
+                if (v.isEmpty()) {
+                    return;
+                }
+            }
+        });
+
+        txtLugar.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (mostrandoError) return;
+                String v = txtLugar.getText().trim();
+                if (!esLugarValido(v)) {
+                    mostrandoError = true;
+                    JOptionPane.showMessageDialog(iAdminEvento.this,
+                        "El lugar es inválido.\nDebe contener solo letras, números y espacios.",
+                        "Lugar inválido",
+                        JOptionPane.WARNING_MESSAGE);
+                    txtLugar.requestFocusInWindow();
+                    txtLugar.selectAll();
+                    mostrandoError = false;
+                }
+            }
+        });
+
+        txtCodigoAsistencia.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (mostrandoError) return;
+                String v = txtCodigoAsistencia.getText().trim();
+                if (!esCodigoValido(v)) {
+                    mostrandoError = true;
+                    JOptionPane.showMessageDialog(iAdminEvento.this,
+                        "El código de asistencia es inválido.\nDebe tener al menos 4 caracteres alfanuméricos sin espacios.",
+                        "Código inválido",
+                        JOptionPane.WARNING_MESSAGE);
+                    txtCodigoAsistencia.requestFocusInWindow();
+                    txtCodigoAsistencia.selectAll();
+                    mostrandoError = false;
+                }
+            }
+        });
+    }
+    /**
+     * Valida que el texto sea válido para un nombre de evento.
+     * Debe tener al menos 5 caracteres y no estar vacío.
+     */
+    private boolean esNombreValido(String texto) {
+        return texto != null && texto.trim().length() >= 5;
+    }
+
+    /**
+     * Valida que el código de asistencia sea válido: alfanumérico, sin espacios, mínimo 4.
+     */
+    private boolean esCodigoValido(String codigo) {
+        if (codigo == null) return false;
+        String v = codigo.trim();
+        return !v.isEmpty() && v.length() >= 4 && v.matches("^[a-zA-Z0-9]+$");
+    }
+
+    /**
+     * Valida que el lugar sea válido: letras, números y espacios.
+     */
+    private boolean esLugarValido(String lugar) {
+        return lugar != null && lugar.trim().matches("^[a-zA-Z0-9 ]+$");
+    }
 
 
     @SuppressWarnings("unchecked")
@@ -265,6 +374,72 @@ public class iAdminEvento extends javax.swing.JFrame {
             });
         }
     }
+
+    // Carga registros filtrados por nombre de evento
+    private void cargarRegistrosPorEvento(String nombreEvento) {
+        modeloRegistros.setRowCount(0);
+        for (Registro r : GestorRegistros.obtenerRegistros()) {
+            if (r.getNombreEvento() != null && r.getNombreEvento().equals(nombreEvento)) {
+                modeloRegistros.addRow(new Object[]{
+                    r.getTipoVisitante(),
+                    r.getNombre(),
+                    r.getApellidos(),
+                    r.getTipoDocumento(),
+                    r.getNumeroDocumento(),
+                    r.getPrograma(),
+                    r.getFicha(),
+                    r.getCentro(),
+                    r.getCelular(),
+                    r.getCorreo(),
+                    r.getFechaHoraRegistro(),
+                    r.getEstado()
+                });
+            }
+        }
+    }
+
+    // Inicializa el selector de eventos y listeners
+    private void inicializarSelectorEventos() {
+        lblSelectorEvento = new javax.swing.JLabel();
+        lblSelectorEvento.setFont(new java.awt.Font("Ebrima", 1, 14));
+        lblSelectorEvento.setText("Seleccionar Evento:");
+
+        cmbEventos = new javax.swing.JComboBox<>();
+        cmbEventos.setFont(new java.awt.Font("Ebrima", 0, 14));
+
+        // Cargar eventos
+        cargarEventosEnCombo();
+
+        // Listener de selección
+        cmbEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String eventoSeleccionado = (String) cmbEventos.getSelectedItem();
+                if (eventoSeleccionado != null && !eventoSeleccionado.equals("Seleccione un evento...")) {
+                    cargarRegistrosPorEvento(eventoSeleccionado);
+                } else {
+                    modeloRegistros.setRowCount(0);
+                }
+            }
+        });
+
+        // Agregar al contenedor en la parte superior
+        getContentPane().add(lblSelectorEvento);
+        getContentPane().add(cmbEventos);
+        lblSelectorEvento.setBounds(20, 10, 180, 25);
+        cmbEventos.setBounds(210, 10, 400, 30);
+    }
+
+    private void cargarEventosEnCombo() {
+        cmbEventos.removeAllItems();
+        cmbEventos.addItem("Seleccione un evento...");
+        java.util.List<Evento> eventos = GestorEventos.obtenerEventos();
+        for (Evento e : eventos) {
+            cmbEventos.addItem(e.getNombre());
+        }
+        if (GestorEventos.getEventoActivo() != null) {
+            cmbEventos.setSelectedItem(GestorEventos.getEventoActivo().getNombre());
+        }
+    }
     
     private void abrirCalendario() {
         JDialog dialog = new JDialog(this, "Seleccionar fecha y hora", true);
@@ -405,9 +580,39 @@ public class iAdminEvento extends javax.swing.JFrame {
         String lugar = txtLugar.getText().trim();
         String codigoAsistencia = txtCodigoAsistencia.getText().trim();
 
-        // Valida que todos los campos estén completos
-        if (nombreEvento.isEmpty() || fechaHora.isEmpty() || lugar.isEmpty() || codigoAsistencia.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
+        // Validar nombre del evento
+        if (!esNombreValido(nombreEvento)) {
+            JOptionPane.showMessageDialog(this, 
+                "El nombre del evento es inválido.\nDebe tener al menos 5 caracteres.", 
+                "Nombre inválido", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validar fecha y hora
+        if (fechaHora.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Debe seleccionar una fecha y hora para el evento.", 
+                "Fecha y hora requerida", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validar lugar
+        if (!esLugarValido(lugar)) {
+            JOptionPane.showMessageDialog(this, 
+                "El lugar es inválido.\nDebe contener solo letras, números y espacios.", 
+                "Lugar inválido", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validar código de asistencia
+        if (!esCodigoValido(codigoAsistencia)) {
+            JOptionPane.showMessageDialog(this, 
+                "El código de asistencia es inválido.\nDebe tener al menos 4 caracteres alfanuméricos sin espacios.", 
+                "Código inválido", 
+                JOptionPane.WARNING_MESSAGE);
             return;
         }
 

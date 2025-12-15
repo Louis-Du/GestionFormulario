@@ -25,8 +25,9 @@ public class Registro {
     private String correo;
     
     // Datos del registro
+    private String nombreEvento;      // Nombre del evento al que asiste
     private String fechaHoraRegistro; // Momento en que se registró la asistencia
-    private String estado;            // Estado de la asistencia (Presente, Ausente, etc.)            // Estado de la asistencia (Presente, Ausente, etc.)
+    private String estado;            // Estado de la asistencia (Presente, Ausente, etc.)
 
     /**
      * Constructor que inicializa un nuevo registro con todos los datos del asistente.
@@ -40,13 +41,14 @@ public class Registro {
      * @param centro Centro educativo o de formación
      * @param celular Número de teléfono celular
      * @param correo Dirección de correo electrónico
+     * @param nombreEvento Nombre del evento al que se registra
      * @param fechaHoraRegistro Fecha y hora del registro de asistencia
      * @param estado Estado actual de la asistencia
      */
     public Registro(String tipoVisitante, String nombre, String apellidos,
                     String tipoDocumento, String numeroDocumento,
                     String programa, String ficha, String centro,
-                    String celular, String correo,
+                    String celular, String correo, String nombreEvento,
                     String fechaHoraRegistro, String estado) {
 
         this.tipoVisitante = tipoVisitante;
@@ -59,8 +61,19 @@ public class Registro {
         this.centro = centro;
         this.celular = celular;
         this.correo = correo;
+        this.nombreEvento = nombreEvento;
         this.fechaHoraRegistro = fechaHoraRegistro;
         this.estado = estado;
+    }
+
+    // Constructor de compatibilidad sin nombreEvento
+    public Registro(String tipoVisitante, String nombre, String apellidos,
+                    String tipoDocumento, String numeroDocumento,
+                    String programa, String ficha, String centro,
+                    String celular, String correo,
+                    String fechaHoraRegistro, String estado) {
+        this(tipoVisitante, nombre, apellidos, tipoDocumento, numeroDocumento,
+             programa, ficha, centro, celular, correo, "", fechaHoraRegistro, estado);
     }
 
     // Métodos getter para acceder a todos los atributos del registro
@@ -94,6 +107,9 @@ public class Registro {
     
     /** @return Dirección de correo electrónico */
     public String getCorreo() { return correo; }
+    
+    /** @return Nombre del evento al que asiste */
+    public String getNombreEvento() { return nombreEvento; }
     
     /** @return Fecha y hora del registro de asistencia */
     public String getFechaHoraRegistro() { return fechaHoraRegistro; }

@@ -6,9 +6,8 @@ import javax.swing.JOptionPane;
 /**
  * Interfaz gráfica de inicio de sesión del sistema.
  * Ventana principal que permite al usuario seleccionar su rol:
- * - Aprendiz: Estudiantes que asistirán a eventos
  * - Administrador de Eventos: Gestiona y crea eventos
- * - Persona Externa: Visitantes o invitados externos
+ * - Invitado: Personas que asistirán a eventos (aprendices o externos)
  * Esta clase extiende JFrame para crear una ventana de aplicación de escritorio.
  */
 public class iLogin extends javax.swing.JFrame {
@@ -39,21 +38,11 @@ public class iLogin extends javax.swing.JFrame {
      */
     private void initComponents() {
 
-        btnAprendiz = new javax.swing.JButton();
         btnAdminEvent = new javax.swing.JButton();
-        btnPersonExterna = new javax.swing.JButton();
+        btnInvitado = new javax.swing.JButton();
         btnSalir = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnAprendiz.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
-        btnAprendiz.setText("Aprendiz");
-        btnAprendiz.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAprendiz.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAprendizActionPerformed(evt);
-            }
-        });
 
         btnAdminEvent.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         btnAdminEvent.setText("Administrador de Eventos");
@@ -64,12 +53,12 @@ public class iLogin extends javax.swing.JFrame {
             }
         });
 
-        btnPersonExterna.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
-        btnPersonExterna.setText("Persona Externa");
-        btnPersonExterna.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnPersonExterna.addActionListener(new java.awt.event.ActionListener() {
+        btnInvitado.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
+        btnInvitado.setText("Invitado");
+        btnInvitado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnInvitado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPersonExternaActionPerformed(evt);
+                btnInvitadoActionPerformed(evt);
             }
         });
 
@@ -90,9 +79,8 @@ public class iLogin extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(132, 132, 132)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAdminEvent)
-                            .addComponent(btnAprendiz, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPersonExterna, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnAdminEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInvitado, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(182, Short.MAX_VALUE))
         );
@@ -104,27 +92,25 @@ public class iLogin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnAdminEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAprendiz, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPersonExterna, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addComponent(btnInvitado, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Método llamado cuando se presiona el botón "Aprendiz".
-     * Abre la ventana de aprendiz y cierra la ventana actual.
+     * Método llamado cuando se presiona el botón "Invitado".
+     * Abre la ventana de selección de eventos para invitados.
      */
-    private void btnAprendizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAprendizActionPerformed
-        // Crea una nueva instancia de la ventana de aprendiz
-        iAprendiz iAprendizWindow = new iAprendiz();
-        // Muestra la ventana de aprendiz
-        iAprendizWindow.setVisible(true);
+    private void btnInvitadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvitadoActionPerformed
+        // Crea una nueva instancia de la ventana de invitado
+        iInvitado ventanaInvitado = new iInvitado();
+        // Muestra la ventana de invitado
+        ventanaInvitado.setVisible(true);
         // Oculta la ventana de login actual
         this.setVisible(false);
-    }//GEN-LAST:event_btnAprendizActionPerformed
+    }//GEN-LAST:event_btnInvitadoActionPerformed
 
     /**
      * Método llamado cuando se presiona el botón "Administrador de Eventos".
@@ -139,13 +125,7 @@ public class iLogin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnAdminEventActionPerformed
 
-    /**
-     * Método llamado cuando se presiona el botón "Persona Externa".
-     * Actualmente sin implementación - reservado para funcionalidad futura.
-     */
-    private void btnPersonExternaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonExternaActionPerformed
 
-    }//GEN-LAST:event_btnPersonExternaActionPerformed
 
     /**
      * Método llamado cuando se presiona el botón "Salir".
@@ -185,8 +165,7 @@ public class iLogin extends javax.swing.JFrame {
     // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE//GEN-BEGIN:variables
     // Estas variables representan los componentes visuales de la interfaz
     private javax.swing.JButton btnAdminEvent;      // Botón para acceder como administrador
-    private javax.swing.JButton btnAprendiz;        // Botón para acceder como aprendiz
-    private javax.swing.JButton btnPersonExterna;   // Botón para acceder como persona externa
+    private javax.swing.JButton btnInvitado;        // Botón para acceder como invitado
     private javax.swing.JToggleButton btnSalir;     // Botón para salir de la aplicación
     // Fin de la declaración de variables//GEN-END:variables
 }
