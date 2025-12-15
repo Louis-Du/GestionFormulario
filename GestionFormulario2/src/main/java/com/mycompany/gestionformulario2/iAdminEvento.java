@@ -45,25 +45,8 @@ public class iAdminEvento extends javax.swing.JFrame {
         }
     });
 
-        // Crea el modelo de tabla con las columnas para los datos de registro
-        modeloRegistros = new DefaultTableModel(
-            new Object[]{
-                "Nombre",           // Nombre completo del asistente
-                "Tipo Documento",   // Tipo de documento (CC, TI, CE, etc.)
-                "N° Documento",     // Número de identificación
-                "Programa",         // Programa académico
-                "Ficha",           // Número de ficha o grupo
-                "Centro",          // Centro de formación
-                "Celular",         // Teléfono de contacto
-                "Correo",          // Email del asistente
-                "Fecha y hora",    // Momento del registro
-                "Estado"           // Estado de asistencia
-            },
-            0  // Inicia con 0 filas
-        );
-
-        // Asigna el modelo creado a la tabla visual
-        tblRegistros.setModel(modeloRegistros);
+        // Obtener el modelo de tabla que ya fue creado en initComponents()
+        modeloRegistros = (DefaultTableModel) tblRegistros.getModel();
 
         // Carga todos los registros existentes en la tabla
         cargarRegistrosEnTabla();
@@ -203,16 +186,28 @@ public class iAdminEvento extends javax.swing.JFrame {
 
         tblRegistros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Tipo Doc", "N° Doc", "Programa", "Ficha", "Centro", "Celular", "Correo", "Fecha/Hora", "Estado"
+                "Tipo de visitante", "Nombre", "Apellidos", "Tipo Doc", "N° Doc", "Programa", "Ficha", "Centro", "Celular", "Correo", "Fecha/Hora", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblRegistros);
+        if (tblRegistros.getColumnModel().getColumnCount() > 0) {
+            tblRegistros.getColumnModel().getColumn(2).setResizable(false);
+            tblRegistros.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -222,7 +217,7 @@ public class iAdminEvento extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdminEvent)
                 .addGap(14, 14, 14))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1165, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,7 +250,9 @@ public class iAdminEvento extends javax.swing.JFrame {
         for (Registro r : GestorRegistros.obtenerRegistros()) {
             // Agrega una nueva fila con todos los datos del registro
             modeloRegistros.addRow(new Object[]{
+                r.getTipoVisitante(),
                 r.getNombre(),
+                r.getApellidos(),
                 r.getTipoDocumento(),
                 r.getNumeroDocumento(),
                 r.getPrograma(),
@@ -479,28 +476,23 @@ public class iAdminEvento extends javax.swing.JFrame {
         });
     }
 
-    // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE//GEN-BEGIN:variables
-    // Botones de acción
-    private javax.swing.JButton btnAceptar;           // Botón para confirmar creación de evento
-    private javax.swing.JButton btnAdminEvent;        // Botón para abrir diálogo de nuevo evento
-    private javax.swing.JButton btnCancelar;          // Botón para cancelar creación de evento
-    private javax.swing.JButton btnVolver;            // Botón para regresar al login
-    
-    // Componentes del diálogo
-    private javax.swing.JDialog jDialogCrearEvento;   // Ventana modal para crear eventos
-    private javax.swing.JLabel jLabel1;               // Etiqueta "Fecha y hora"
-    private javax.swing.JLabel jLabel2;               // Etiqueta "Lugar"
-    private javax.swing.JLabel jLabel3;               // Etiqueta "Código de asistencia"
-    private javax.swing.JScrollPane jScrollPane1;     // Contenedor con scroll para vista previa Excel
-    private javax.swing.JScrollPane jScrollPane2;     // Contenedor con scroll para tabla de registros
-    private javax.swing.JLabel lblNombreEvento;       // Etiqueta "Nombre del evento"
-    
-    // Componentes de datos
-    private javax.swing.JTable tblRegistros;          // Tabla que muestra todos los registros
-    private javax.swing.JTextField txtCodigoAsistencia;  // Campo de texto para código
-    private javax.swing.JTextField txtFechaHora;      // Campo de texto para fecha y hora
-    private javax.swing.JTextField txtLugar;          // Campo de texto para lugar
-    private javax.swing.JTextField txtNombreEvento;   // Campo de texto para nombre del evento
-    // Fin de la declaración de variables//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnAdminEvent;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnVolver;
+    private javax.swing.JDialog jDialogCrearEvento;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblNombreEvento;
+    private javax.swing.JTable tblRegistros;
+    private javax.swing.JTextField txtCodigoAsistencia;
+    private javax.swing.JTextField txtFechaHora;
+    private javax.swing.JTextField txtLugar;
+    private javax.swing.JTextField txtNombreEvento;
+    // End of variables declaration//GEN-END:variables
 }
 

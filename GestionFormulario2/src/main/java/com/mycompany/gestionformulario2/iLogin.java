@@ -115,10 +115,15 @@ public class iLogin extends javax.swing.JFrame {
 
     /**
      * Método llamado cuando se presiona el botón "Aprendiz".
-     * Actualmente sin implementación - reservado para funcionalidad futura.
+     * Abre la ventana de aprendiz y cierra la ventana actual.
      */
     private void btnAprendizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAprendizActionPerformed
-
+        // Crea una nueva instancia de la ventana de aprendiz
+        iAprendiz iAprendizWindow = new iAprendiz();
+        // Muestra la ventana de aprendiz
+        iAprendizWindow.setVisible(true);
+        // Oculta la ventana de login actual
+        this.setVisible(false);
     }//GEN-LAST:event_btnAprendizActionPerformed
 
     /**

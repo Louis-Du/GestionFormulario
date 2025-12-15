@@ -323,7 +323,10 @@ public class iFormularioAprendiz extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // 1. Obtener los textos de los campos y quitar espacios en blanco (trim)
+    String tipoVisitante = "Aprendiz"; // Por defecto, ya que es un formulario de aprendiz
     String nombre = txtNomapren.getText().trim();
+    String apellidos = ""; // Campo vacío por ahora (se puede agregar al formulario después)
+    String tipoDocumento = (String) cbTipodocum.getSelectedItem();
     String numDoc = txtNumdocum.getText().trim();
     String programa = txtPrograma.getText().trim();
     String ficha = txtFicha.getText().trim();
@@ -353,17 +356,63 @@ public class iFormularioAprendiz extends javax.swing.JFrame {
          JOptionPane.showMessageDialog(this, "El celular solo debe contener números.");
          return;
     }
-
-    // 4. Si pasa todas las validaciones:
-    JOptionPane.showMessageDialog(this, 
-            "¡Registro Exitoso!\nAprendiz: " + nombre, 
-            "Éxito", 
-            JOptionPane.INFORMATION_MESSAGE);
-            
-    // Aquí iría tu lógica para guardar en base de datos o enviar la info
     
-    // Opcional: Cerrar la ventana al terminar
-    // this.dispose();
+    // Validación del correo electrónico
+    if (!correo.contains("@") || !correo.contains(".")) {
+        JOptionPane.showMessageDialog(this, "Ingrese un correo electrónico válido.");
+        return;
+    }
+
+    // 4. Si pasa todas las validaciones, crear el registro
+    try {
+        // Obtener fecha y hora actual
+        String fechaHoraActual = java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        
+        // Crear nuevo registro con todos los datos
+        Registro nuevoRegistro = new Registro(
+            tipoVisitante,
+            nombre,
+            apellidos,
+            tipoDocumento,
+            numDoc,
+            programa,
+            ficha,
+            centro,
+            celular,
+            correo,
+            fechaHoraActual,
+            "Registrado"
+        );
+        
+        // Agregar el registro al gestor
+        GestorRegistros.agregarRegistro(nuevoRegistro);
+        
+        // Mostrar mensaje de éxito
+        JOptionPane.showMessageDialog(this, 
+                "¡Registro Exitoso!\nAprendiz: " + nombre, 
+                "Éxito", 
+                JOptionPane.INFORMATION_MESSAGE);
+        
+        // Limpiar los campos del formulario
+        txtNomapren.setText("");
+        txtNumdocum.setText("");
+        txtPrograma.setText("");
+        txtFicha.setText("");
+        txtCentro.setText("");
+        txtCelular.setText("");
+        txtCorreo.setText("");
+        cbTipodocum.setSelectedIndex(0);
+        
+        // Cerrar la ventana
+        this.dispose();
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, 
+                "Error al guardar el registro: " + e.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtProgramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProgramaActionPerformed

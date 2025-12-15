@@ -9,7 +9,9 @@ package com.mycompany.gestionformulario2;
 public class Registro {
     
     // Datos personales del asistente
+    private String tipoVisitante;     // Tipo de visitante (Aprendiz, Externo, etc.)
     private String nombre;
+    private String apellidos;         // Apellidos del asistente
     private String tipoDocumento;     // Tipo de identificación (CC, TI, CE, etc.)
     private String numeroDocumento;   // Número del documento de identidad
     
@@ -28,7 +30,9 @@ public class Registro {
 
     /**
      * Constructor que inicializa un nuevo registro con todos los datos del asistente.
-     * @param nombre Nombre completo del asistente
+     * @param tipoVisitante Tipo de visitante
+     * @param nombre Nombre del asistente
+     * @param apellidos Apellidos del asistente
      * @param tipoDocumento Tipo de documento de identificación
      * @param numeroDocumento Número del documento de identidad
      * @param programa Programa académico o de formación
@@ -39,12 +43,15 @@ public class Registro {
      * @param fechaHoraRegistro Fecha y hora del registro de asistencia
      * @param estado Estado actual de la asistencia
      */
-    public Registro(String nombre, String tipoDocumento, String numeroDocumento,
+    public Registro(String tipoVisitante, String nombre, String apellidos,
+                    String tipoDocumento, String numeroDocumento,
                     String programa, String ficha, String centro,
                     String celular, String correo,
                     String fechaHoraRegistro, String estado) {
 
+        this.tipoVisitante = tipoVisitante;
         this.nombre = nombre;
+        this.apellidos = apellidos;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.programa = programa;
@@ -58,8 +65,14 @@ public class Registro {
 
     // Métodos getter para acceder a todos los atributos del registro
     
-    /** @return Nombre completo del asistente */
+    /** @return Tipo de visitante */
+    public String getTipoVisitante() { return tipoVisitante; }
+    
+    /** @return Nombre del asistente */
     public String getNombre() { return nombre; }
+    
+    /** @return Apellidos del asistente */
+    public String getApellidos() { return apellidos; }
     
     /** @return Tipo de documento de identificación */
     public String getTipoDocumento() { return tipoDocumento; }
