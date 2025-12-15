@@ -2,6 +2,7 @@
 package com.mycompany.gestionformulario2;
 
 import com.mycompany.gestionformulario2.Evento;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
@@ -11,6 +12,10 @@ import javax.swing.table.TableCellRenderer;
 
 import java.awt.Component;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
 
 /**
  * Interfaz gráfica de administración de eventos.
@@ -30,6 +35,15 @@ public class iAdminEvento extends javax.swing.JFrame {
     public iAdminEvento() {
         // Inicializa todos los componentes visuales
         initComponents();
+        
+    txtFechaHora.setEditable(false);
+
+    txtFechaHora.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            abrirCalendario();
+        }
+    });
 
         // Crea el modelo de tabla con las columnas para los datos de registro
         modeloRegistros = new DefaultTableModel(
@@ -65,7 +79,7 @@ public class iAdminEvento extends javax.swing.JFrame {
 
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jDialogCrearEvento = new javax.swing.JDialog();
@@ -227,7 +241,7 @@ public class iAdminEvento extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     /**
      * Carga todos los registros de asistentes desde el gestor a la tabla visual.
@@ -254,12 +268,59 @@ public class iAdminEvento extends javax.swing.JFrame {
             });
         }
     }
+    
+    private void abrirCalendario() {
+        JDialog dialog = new JDialog(this, "Seleccionar fecha y hora", true);
+        dialog.setSize(350, 250);
+        dialog.setLocationRelativeTo(this);
+
+        // 📅 Selector de fecha
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+
+        // ⏰ Selector de hora (Spinner)
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        javax.swing.SpinnerDateModel timeModel =
+                new javax.swing.SpinnerDateModel(calendar.getTime(), null, null, java.util.Calendar.MINUTE);
+
+        javax.swing.JSpinner spinnerHora = new javax.swing.JSpinner(timeModel);
+        javax.swing.JSpinner.DateEditor timeEditor =
+                new javax.swing.JSpinner.DateEditor(spinnerHora, "HH:mm");
+        spinnerHora.setEditor(timeEditor);
+
+        // ✅ Botón aceptar
+        JButton btnOk = new JButton("Aceptar");
+        btnOk.addActionListener(e -> {
+            if (dateChooser.getDate() != null) {
+                SimpleDateFormat fechaFmt = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat horaFmt = new SimpleDateFormat("HH:mm");
+
+                String fecha = fechaFmt.format(dateChooser.getDate());
+                String hora = horaFmt.format(spinnerHora.getValue());
+
+                txtFechaHora.setText(fecha + " " + hora);
+                dialog.dispose();
+            } else {
+                JOptionPane.showMessageDialog(dialog, "Seleccione una fecha");
+            }
+        });
+
+        // 🧱 Layout simple
+        JPanel panel = new JPanel();
+        panel.setLayout(new java.awt.GridLayout(3, 1, 10, 10));
+        panel.add(dateChooser);
+        panel.add(spinnerHora);
+        panel.add(btnOk);
+
+        dialog.add(panel);
+        dialog.setVisible(true);
+    }
 
     /**
      * Método llamado al presionar el botón "Crear nuevo formulario".
      * Abre un cuadro de diálogo modal para configurar un nuevo evento.
      */
-    private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEventActionPerformed
+    private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // Muestra el archivo Excel de plantilla en vista previa
         mostrarExcelEnVistaPrevia();
         // Configura el tamaño del diálogo
@@ -270,7 +331,7 @@ public class iAdminEvento extends javax.swing.JFrame {
         jDialogCrearEvento.setModal(true);
         // Muestra el diálogo al usuario
         jDialogCrearEvento.setVisible(true);
-    }//GEN-LAST:event_btnAdminEventActionPerformed
+    }                                             
 
     /**
      * Carga y muestra un archivo Excel de plantilla dentro del diálogo de creación de eventos.
@@ -309,20 +370,20 @@ public class iAdminEvento extends javax.swing.JFrame {
      * Método llamado al presionar el botón "Volver".
      * Regresa a la ventana de login y cierra la ventana actual.
      */
-    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // Crea una nueva instancia de la ventana de login
         iLogin iLogin = new iLogin();
         // Muestra la ventana de login
         iLogin.setVisible(true);
         // Oculta la ventana actual de administración
         this.setVisible(false);
-    }//GEN-LAST:event_btnVolverActionPerformed
+    }                                         
 
     /**
      * Método llamado al presionar el botón "Cancelar" en el diálogo de creación.
      * Muestra un cuadro de confirmación antes de cancelar la creación del evento.
      */
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // Muestra diálogo de confirmación con opciones OK/Cancelar
         int resultado = JOptionPane.showConfirmDialog(this, "¿Estás seguro que deseas cancelar la cración del formulario?", "Cancelación de formulario", JOptionPane.OK_CANCEL_OPTION);
         if(resultado == JOptionPane.OK_OPTION){
@@ -334,13 +395,13 @@ public class iAdminEvento extends javax.swing.JFrame {
             // Registra en consola la acción realizada
             System.out.println("Creación de formulario CANCELADA por el usuario.");
         }
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }                                           
 
     /**
      * Método llamado al presionar el botón "Aceptar" en el diálogo de creación.
      * Valida los campos ingresados y crea un nuevo evento en el sistema.
      */
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // Obtiene y limpia los valores de los campos de texto
         String nombreEvento = txtNombreEvento.getText().trim();
         String fechaHora = txtFechaHora.getText().trim();
@@ -374,7 +435,7 @@ public class iAdminEvento extends javax.swing.JFrame {
         
         // Cierra el diálogo después de crear el evento
         jDialogCrearEvento.dispose(); 
-    }//GEN-LAST:event_btnAceptarActionPerformed
+    }                                          
             
     /**
      * Ajusta dinámicamente el ancho de las columnas de una tabla según su contenido.
@@ -418,7 +479,7 @@ public class iAdminEvento extends javax.swing.JFrame {
         });
     }
 
-    // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE//GEN-BEGIN:variables
+    // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE                     
     // Botones de acción
     private javax.swing.JButton btnAceptar;           // Botón para confirmar creación de evento
     private javax.swing.JButton btnAdminEvent;        // Botón para abrir diálogo de nuevo evento
@@ -440,6 +501,7 @@ public class iAdminEvento extends javax.swing.JFrame {
     private javax.swing.JTextField txtFechaHora;      // Campo de texto para fecha y hora
     private javax.swing.JTextField txtLugar;          // Campo de texto para lugar
     private javax.swing.JTextField txtNombreEvento;   // Campo de texto para nombre del evento
-    // Fin de la declaración de variables//GEN-END:variables
+    // Fin de la declaración de variables                   
 }
+
 
