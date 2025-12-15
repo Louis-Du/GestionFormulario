@@ -80,7 +80,6 @@ public class iAdminEvento extends javax.swing.JFrame {
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jDialogCrearEvento = new javax.swing.JDialog();
@@ -243,7 +242,6 @@ public class iAdminEvento extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    }// </editor-fold>                        
 
     /**
      * Carga todos los registros de asistentes desde el gestor a la tabla visual.
@@ -323,7 +321,6 @@ public class iAdminEvento extends javax.swing.JFrame {
      * Abre un cuadro de diálogo modal para configurar un nuevo evento.
      */
     private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminEventActionPerformed
-    private void btnAdminEventActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // Muestra el archivo Excel de plantilla en vista previa
         mostrarExcelEnVistaPrevia();
         // Configura el tamaño del diálogo
@@ -335,7 +332,6 @@ public class iAdminEvento extends javax.swing.JFrame {
         // Muestra el diálogo al usuario
         jDialogCrearEvento.setVisible(true);
     }//GEN-LAST:event_btnAdminEventActionPerformed
-    }                                             
 
     /**
      * Carga y muestra un archivo Excel de plantilla dentro del diálogo de creación de eventos.
@@ -375,7 +371,6 @@ public class iAdminEvento extends javax.swing.JFrame {
      * Regresa a la ventana de login y cierra la ventana actual.
      */
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // Crea una nueva instancia de la ventana de login
         iLogin iLogin = new iLogin();
         // Muestra la ventana de login
@@ -383,14 +378,12 @@ public class iAdminEvento extends javax.swing.JFrame {
         // Oculta la ventana actual de administración
         this.setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
-    }                                         
 
     /**
      * Método llamado al presionar el botón "Cancelar" en el diálogo de creación.
      * Muestra un cuadro de confirmación antes de cancelar la creación del evento.
      */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // Muestra diálogo de confirmación con opciones OK/Cancelar
         int resultado = JOptionPane.showConfirmDialog(this, "¿Estás seguro que deseas cancelar la cración del formulario?", "Cancelación de formulario", JOptionPane.OK_CANCEL_OPTION);
         if(resultado == JOptionPane.OK_OPTION){
@@ -403,14 +396,12 @@ public class iAdminEvento extends javax.swing.JFrame {
             System.out.println("Creación de formulario CANCELADA por el usuario.");
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
-    }                                           
 
     /**
      * Método llamado al presionar el botón "Aceptar" en el diálogo de creación.
      * Valida los campos ingresados y crea un nuevo evento en el sistema.
      */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // Obtiene y limpia los valores de los campos de texto
         String nombreEvento = txtNombreEvento.getText().trim();
         String fechaHora = txtFechaHora.getText().trim();
@@ -445,7 +436,6 @@ public class iAdminEvento extends javax.swing.JFrame {
         // Cierra el diálogo después de crear el evento
         jDialogCrearEvento.dispose(); 
     }//GEN-LAST:event_btnAceptarActionPerformed
-    }                                          
             
     /**
      * Ajusta dinámicamente el ancho de las columnas de una tabla según su contenido.
@@ -490,7 +480,6 @@ public class iAdminEvento extends javax.swing.JFrame {
     }
 
     // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE//GEN-BEGIN:variables
-    // Declaración de variables de componentes - NO MODIFICAR MANUALMENTE                     
     // Botones de acción
     private javax.swing.JButton btnAceptar;           // Botón para confirmar creación de evento
     private javax.swing.JButton btnAdminEvent;        // Botón para abrir diálogo de nuevo evento
@@ -514,8 +503,4 @@ public class iAdminEvento extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreEvento;   // Campo de texto para nombre del evento
     // Fin de la declaración de variables//GEN-END:variables
 }
-
-    // Fin de la declaración de variables                   
-}
-
 
