@@ -101,14 +101,15 @@ public class iLogin extends javax.swing.JFrame {
 
     /**
      * Método llamado cuando se presiona el botón "Invitado".
-     * Abre el formulario de registro para invitados (por implementar).
+     * Abre la ventana de selección de eventos para invitados.
      */
     private void btnInvitadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvitadoActionPerformed
-        // TODO: Implementar apertura de formulario único para invitados
-        JOptionPane.showMessageDialog(this, 
-            "Formulario de invitado en desarrollo",
-            "Información",
-            JOptionPane.INFORMATION_MESSAGE);
+        // Crea una nueva instancia de la ventana de invitado
+        iInvitado ventanaInvitado = new iInvitado();
+        // Muestra la ventana de invitado
+        ventanaInvitado.setVisible(true);
+        // Oculta la ventana de login actual
+        this.setVisible(false);
     }//GEN-LAST:event_btnInvitadoActionPerformed
 
     /**
