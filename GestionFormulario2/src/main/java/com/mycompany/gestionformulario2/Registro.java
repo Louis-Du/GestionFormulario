@@ -109,6 +109,22 @@ public class Registro {
      * Valores comunes: "Presente", "Ausente", "Pendiente"
      */
     private String estado;
+    
+    // ========== ATRIBUTOS: CONTROL DE NOTIFICACIONES ==========
+    
+    /**
+     * Indica si se ha enviado el correo de recordatorio al asistente.
+     * Se marca como true cuando se envía el recordatorio 3 días antes del evento.
+     * Evita envío de recordatorios duplicados.
+     */
+    private boolean recordatorioEnviado;
+    
+    /**
+     * Indica si se ha enviado el código de asistencia al asistente.
+     * Se marca como true cuando se envía el código el día del evento.
+     * Evita envío de códigos duplicados.
+     */
+    private boolean codigoEnviado;
 
     /**
      * Constructor principal que inicializa un nuevo registro con todos los datos del asistente.
@@ -158,6 +174,10 @@ public class Registro {
         this.nombreEvento = nombreEvento;
         this.fechaHoraRegistro = fechaHoraRegistro;
         this.estado = estado;
+        
+        // Inicializar flags de notificaciones en false
+        this.recordatorioEnviado = false;
+        this.codigoEnviado = false;
     }
     
     // ========== MÉTODOS GETTER (ACCESORES) ==========
@@ -247,4 +267,34 @@ public class Registro {
      * @return String con el estado ("Presente", "Ausente", "Pendiente", etc.")
      */
     public String getEstado() { return estado; }
+    
+    // ========== MÉTODOS GETTER/SETTER PARA CONTROL DE NOTIFICACIONES ==========
+    
+    /**
+     * Verifica si se ha enviado el recordatorio al asistente.
+     * @return true si el recordatorio fue enviado, false en caso contrario
+     */
+    public boolean isRecordatorioEnviado() { return recordatorioEnviado; }
+    
+    /**
+     * Establece si se ha enviado el recordatorio al asistente.
+     * @param recordatorioEnviado true para marcar como enviado, false en caso contrario
+     */
+    public void setRecordatorioEnviado(boolean recordatorioEnviado) {
+        this.recordatorioEnviado = recordatorioEnviado;
+    }
+    
+    /**
+     * Verifica si se ha enviado el código de asistencia al asistente.
+     * @return true si el código fue enviado, false en caso contrario
+     */
+    public boolean isCodigoEnviado() { return codigoEnviado; }
+    
+    /**
+     * Establece si se ha enviado el código de asistencia al asistente.
+     * @param codigoEnviado true para marcar como enviado, false en caso contrario
+     */
+    public void setCodigoEnviado(boolean codigoEnviado) {
+        this.codigoEnviado = codigoEnviado;
+    }
 }
