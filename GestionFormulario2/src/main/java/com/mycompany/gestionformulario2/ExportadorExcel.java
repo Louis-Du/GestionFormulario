@@ -145,7 +145,8 @@ public class ExportadorExcel {
             "Celular",
             "Correo electrónico",
             "Fecha y hora de registro",
-            "Estado"
+            "Estado",
+            "Asistencia"
         };
 
         for (int i = 0; i < columnas.length; i++) {
@@ -171,6 +172,7 @@ public class ExportadorExcel {
             crearCelda(row, 9, registro.getCorreo(), dataStyle);
             crearCelda(row, 10, registro.getFechaHoraRegistro(), dataStyle);
             crearCelda(row, 11, registro.getEstado(), dataStyle);
+            crearCelda(row, 12, "Presente".equals(registro.getEstado()) ? "Sí" : "No", dataStyle);
         }
 
         // ========== AJUSTE AUTOMÁTICO DEL ANCHO DE COLUMNAS ==========
