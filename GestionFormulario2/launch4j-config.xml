@@ -2,8 +2,12 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>target/GestionFormulario2.jar</jar>
-  <outfile>GestionFormulario2.exe</outfile>
+  <jar>C:\Users\lukas\Documents\Proyectos\GestionFormulario\GestionFormulario2\target\GestionFormulario2.jar</jar>
+  <!-- ↑ RUTA ABSOLUTA COMPLETA DEL JAR -->
+  
+  <outfile>C:\Users\lukas\Documents\Proyectos\GestionFormulario\GestionFormulario2\GestionFormulario2.exe</outfile>
+  <!-- ↑ DONDE QUIERES QUE SE GENERE EL EXE -->
+  
   <errTitle>Gestion Formulario 2</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -13,7 +17,9 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>icon.ico</icon>
+  <icon>C:\Users\lukas\Documents\Proyectos\GestionFormulario\GestionFormulario2\icon.ico</icon>
+  <!-- ↑ RUTA ABSOLUTA DE TU ICONO -->
+  
   <jre>
     <path></path>
     <minVersion>19.0.0</minVersion>
