@@ -31,11 +31,11 @@ public class SchedulerService {
     
     private static final Logger LOGGER = Logger.getLogger(SchedulerService.class.getName());
     
-    // Intervalo de ejecución en minutos
-    private static final long INTERVALO_MINUTOS = 60; // 1 hora
+    // Intervalo de ejecución en minutos (1 hora)
+    private static final long INTERVALO_MINUTOS = 60;
     
     // Delay inicial en segundos antes de la primera ejecución
-    private static final long DELAY_INICIAL_SEGUNDOS = 30;
+    private static final long DELAY_INICIAL_SEGUNDOS = 5;
     
     private final ScheduledExecutorService scheduler;
     private final NotificacionService notificacionService;

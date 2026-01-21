@@ -296,21 +296,28 @@ public class iAdminEvento extends javax.swing.JFrame {
 
         tblRegistros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Tipo de visitante", "Nombre", "Apellidos", "Tipo Doc", "N° Doc", "Programa", "Ficha", "Centro", "Celular", "Correo", "Fecha/Hora", "Estado"
+                "Tipo de visitante", "Nombre", "Apellidos", "Tipo Doc", "N° Doc", "Programa", "Ficha", "Centro", "Celular", "Correo", "Fecha/Hora", "Estado", "Asistió"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+            
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 12) {
+                    return Boolean.class;  // Columna de checkbox
+                }
+                return String.class;
             }
         });
         jScrollPane2.setViewportView(tblRegistros);
@@ -318,6 +325,24 @@ public class iAdminEvento extends javax.swing.JFrame {
             tblRegistros.getColumnModel().getColumn(2).setResizable(false);
             tblRegistros.getColumnModel().getColumn(3).setResizable(false);
         }
+        
+        // Agregar listener para guardar cambios en la columna de asistencia
+        tblRegistros.getModel().addTableModelListener(e -> {
+            if (e.getColumn() == 12) {  // Columna "Asistió"
+                int fila = e.getFirstRow();
+                Boolean asistio = (Boolean) tblRegistros.getValueAt(fila, 12);
+                String nombre = (String) tblRegistros.getValueAt(fila, 1);
+                String apellidos = (String) tblRegistros.getValueAt(fila, 2);
+                
+                // Buscar el registro correspondiente y actualizar
+                for (Registro r : GestorRegistros.obtenerRegistros()) {
+                    if (r.getNombre().equals(nombre) && r.getApellidos().equals(apellidos)) {
+                        r.setEstado(asistio ? "Presente" : "Ausente");
+                        break;
+                    }
+                }
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -381,6 +406,9 @@ public class iAdminEvento extends javax.swing.JFrame {
         modeloRegistros.setRowCount(0);
         for (Registro r : GestorRegistros.obtenerRegistros()) {
             if (r.getNombreEvento() != null && r.getNombreEvento().equals(nombreEvento)) {
+                // Convertir estado a checkbox: "Presente" = true, cualquier otro = false
+                boolean asistio = "Presente".equals(r.getEstado());
+                
                 modeloRegistros.addRow(new Object[]{
                     r.getTipoVisitante(),
                     r.getNombre(),
@@ -393,7 +421,8 @@ public class iAdminEvento extends javax.swing.JFrame {
                     r.getCelular(),
                     r.getCorreo(),
                     r.getFechaHoraRegistro(),
-                    r.getEstado()
+                    r.getEstado(),
+                    asistio  // Nueva columna: Asistió
                 });
             }
         }

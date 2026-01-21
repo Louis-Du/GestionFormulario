@@ -268,6 +268,12 @@ public class Registro {
      */
     public String getEstado() { return estado; }
     
+    /**
+     * Establece el estado de asistencia del registro.
+     * @param estado El nuevo estado ("Presente", "Ausente", "Pendiente", etc.)
+     */
+    public void setEstado(String estado) { this.estado = estado; }
+    
     // ========== MÉTODOS GETTER/SETTER PARA CONTROL DE NOTIFICACIONES ==========
     
     /**

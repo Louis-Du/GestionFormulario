@@ -13,27 +13,25 @@ import java.util.logging.Logger;
  * 
  * Responsabilidades:
  * - Verificar eventos próximos y enviar recordatorios N días antes
- * - Enviar código de asistencia el día del evento
  * - Evitar envío de correos duplicados mediante flags en Registro
  * - Registrar todas las acciones en el log
  * 
  * Lógica de notificaciones:
- * 1. Recordatorio: Se envía 3 días antes del evento (configurable)
- * 2. Código: Se envía el mismo día del evento
+ * 1. Recordatorio: Se envía 1 día antes del evento
  * 
  * Formato de fechas esperado en Evento:
  * - "yyyy-MM-dd HH:mm" (ejemplo: "2026-01-25 14:30")
  * - Compatible con el formato generado por JDateChooser en iAdminEvento
  * 
  * @author Sistema de Gestión de Formularios
- * @version 1.0
+ * @version 2.0
  */
 public class NotificacionService {
     
     private static final Logger LOGGER = Logger.getLogger(NotificacionService.class.getName());
     
     // Días de anticipación para enviar recordatorio
-    private static final int DIAS_RECORDATORIO = 3;
+    private static final int DIAS_RECORDATORIO = 1;
     
     private final EmailService emailService;
     
@@ -107,14 +105,13 @@ public class NotificacionService {
             return;
         }
         
-        // Calcular fecha de recordatorio
+        // Calcular fecha de recordatorio (1 día antes)
         LocalDate fechaRecordatorio = fechaEvento.minusDays(DIAS_RECORDATORIO);
         
         // Obtener todos los registros del evento
         List<Registro> registros = GestorRegistros.obtenerRegistros();
         
         int recordatoriosEnviados = 0;
-        int codigosEnviados = 0;
         
         for (Registro registro : registros) {
             // Filtrar solo registros de este evento
@@ -130,20 +127,12 @@ public class NotificacionService {
                     recordatoriosEnviados++;
                 }
             }
-            
-            // Enviar código si corresponde
-            if (hoy.equals(fechaEvento) && !registro.isCodigoEnviado()) {
-                if (enviarCodigoAsistencia(registro, evento)) {
-                    registro.setCodigoEnviado(true);
-                    codigosEnviados++;
-                }
-            }
         }
         
-        if (recordatoriosEnviados > 0 || codigosEnviados > 0) {
+        if (recordatoriosEnviados > 0) {
             LOGGER.log(Level.INFO, 
-                "Evento: {0} | Recordatorios: {1} | Códigos: {2}", 
-                new Object[]{evento.getNombre(), recordatoriosEnviados, codigosEnviados});
+                "Evento: {0} | Recordatorios enviados: {1}", 
+                new Object[]{evento.getNombre(), recordatoriosEnviados});
         }
     }
     
@@ -161,41 +150,11 @@ public class NotificacionService {
         
         StringBuilder mensaje = new StringBuilder();
         mensaje.append("Estimado/a ").append(registro.getNombre()).append(" ").append(registro.getApellidos()).append(",\n\n");
-        mensaje.append("Le recordamos que está registrado/a para el siguiente evento:\n\n");
+        mensaje.append("Le recordamos que mañana es el siguiente evento:\n\n");
         mensaje.append("📅 Evento: ").append(evento.getNombre()).append("\n");
         mensaje.append("📆 Fecha y hora: ").append(evento.getFechaHora()).append("\n");
         mensaje.append("📍 Lugar: ").append(evento.getLugar()).append("\n\n");
-        mensaje.append("El día del evento recibirá un correo con el código de asistencia para registrar su presencia.\n\n");
         mensaje.append("¡Esperamos contar con su asistencia!\n\n");
-        mensaje.append("Saludos cordiales,\n");
-        mensaje.append("Sistema de Gestión de Eventos");
-        
-        return emailService.enviarCorreo(destinatario, asunto, mensaje.toString());
-    }
-    
-    /**
-     * Envía correo con código de asistencia a un asistente.
-     * 
-     * @param registro Registro del asistente
-     * @param evento Evento al que está registrado
-     * @return true si el envío fue exitoso
-     */
-    private boolean enviarCodigoAsistencia(Registro registro, Evento evento) {
-        String destinatario = registro.getCorreo();
-        String asunto = "Código de asistencia – " + evento.getNombre();
-        
-        StringBuilder mensaje = new StringBuilder();
-        mensaje.append("Estimado/a ").append(registro.getNombre()).append(" ").append(registro.getApellidos()).append(",\n\n");
-        mensaje.append("¡Hoy es el día del evento!\n\n");
-        mensaje.append("📅 Evento: ").append(evento.getNombre()).append("\n");
-        mensaje.append("📆 Fecha y hora: ").append(evento.getFechaHora()).append("\n");
-        mensaje.append("📍 Lugar: ").append(evento.getLugar()).append("\n\n");
-        mensaje.append("🔑 Su código de asistencia es: ").append(evento.getCodigoAsistencia()).append("\n\n");
-        mensaje.append("IMPORTANTE:\n");
-        mensaje.append("- Presente este código al momento del registro de asistencia\n");
-        mensaje.append("- Ingrese el código exactamente como se muestra (sin espacios)\n");
-        mensaje.append("- El código es válido únicamente para este evento\n\n");
-        mensaje.append("¡Le deseamos una excelente experiencia en el evento!\n\n");
         mensaje.append("Saludos cordiales,\n");
         mensaje.append("Sistema de Gestión de Eventos");
         

@@ -41,20 +41,23 @@ public class EmailService {
     private final Properties properties;
     
     /**
-     * Constructor que inicializa el servicio con credenciales desde variables de entorno.
-     * Si las credenciales no están configuradas, registra error pero no lanza excepción
-     * para no romper la ejecución de la aplicación principal.
+     * Constructor que inicializa el servicio con credenciales configuradas.
+     * Las credenciales están hardcodeadas directamente en el código.
+     * 
+     * ⚠️ ADVERTENCIA DE SEGURIDAD:
+     * En producción, NUNCA hardcodees credenciales en el código.
+     * Usa variables de entorno o sistemas de gestión de secretos.
      */
     public EmailService() {
-        // Obtener credenciales desde variables de entorno
-        this.emailUser = System.getenv("EMAIL_USER");
-        this.emailPass = System.getenv("EMAIL_PASS");
+        // ⚠️ CAMBIAR ESTOS VALORES CON TUS CREDENCIALES
+        this.emailUser = "correodepruebadenotificacion@gmail.com";  // Tu correo Gmail
+        this.emailPass = "ihot yxqs abfu wewp";         // Tu App Password (16 caracteres)
         
         // Validar credenciales
-        if (emailUser == null || emailPass == null || emailUser.trim().isEmpty() || emailPass.trim().isEmpty()) {
+        if (emailUser == null || emailPass == null || emailUser.trim().isEmpty() || emailPass.trim().isEmpty() ||
+            emailUser.equals("correodepruebadenotificacion@gmail.com") || emailPass.equals("ihot yxqs abfu wewp")) {
             LOGGER.log(Level.WARNING, 
-                "Variables de entorno EMAIL_USER y/o EMAIL_PASS no configuradas. " +
-                "El servicio de correo no funcionará.");
+                "Credenciales no configuradas. Por favor, modifica EmailService.java con tus credenciales.");
         }
         
         // Configurar propiedades SMTP para Gmail
