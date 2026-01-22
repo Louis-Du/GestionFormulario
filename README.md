@@ -32,9 +32,11 @@ Nuestro sistema se basa en un problema real que se presenta en el _Servicio Naci
 ---
 # Instalación y ejecución
 
-```git clone https://github.com/Louis-DU/GestionFormulario.git
+```
+git clone https://github.com/Louis-DU/GestionFormulario.git
 mvn clean package
-java -jar target/GestionFormulario2-*.jar```
+java -jar target/GestionFormulario2-*.jar
+```
 (Opcional) Ejecutar desde IDE.
 
 ## Uso rápido
