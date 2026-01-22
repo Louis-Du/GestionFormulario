@@ -4,12 +4,16 @@
 
 ### Sistema de gestión de eventos y asistencia para SENA
 
-![Java](https://img.shields.io/badge/Java-19-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Java](https://img.shields.io/badge/Java-19-ED8B00?)
 [![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=flat&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
-[![Apache POI](https://img.shields.io/badge/Apache_POI-5.5.1-D22128?style=flat&logo=apache&logoColor=white)](https://poi.apache.org/)
+![Apache POI](https://img.shields.io/badge/Apache_POI-5.5.1-D22128?)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Swing](https://img.shields.io/badge/GUI-Swing-007396?)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Louis-Du/GestionFormulario?)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Louis-Du/GestionFormulario?)
+![Status](https://img.shields.io/badge/Status-Active-success?)
 
-[Características](#-características-clave) • [Instalación](#-instalación) • [Uso](#-uso-rápido) • [Tecnologías](#-tecnologías-utilizadas) • [Colaboradores](#-colaboradores)
+[Características](#-características-clave) • [Instalar](#-Descargar) • [Clonar](#-Clonar) • [Uso](#-uso-rápido) • [Tecnologías](#-tecnologías-utilizadas) • [Colaboradores](#-colaboradores)
 
 </div>
 
@@ -76,8 +80,20 @@ Actualmente en el SENA, los eventos presentan un problema de duplicación de tra
 - `Registro` - Entidad de registro de asistente
 
 ---
+# 📥 Descargar 
 
-## 📥 Instalación
+Puedes descargar la última versión desde la página de releases:
+
+[![Download Latest Release](https://img.shields.io/badge/Download-Latest_Release-blue?style=for-the-badge&logo=github)](https://github.com/Louis-Du/GestionFormulario/releases/latest)
+
+**Opciones de descarga:**
+- 📦 **Source code (zip)** - Código fuente comprimido
+- 📦 **Source code (tar.gz)** - Código fuente para Linux/Mac
+- 💎 **GestionFormulario2-1.0-SNAPSHOT.jar** - Ejecutable JAR (si está disponible)
+
+---
+
+## 📥 Ejecutar
 
 ### Requisitos previos
 
