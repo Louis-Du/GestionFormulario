@@ -1,72 +1,178 @@
-# Gestión de Formulario 
+<div align="center">
+
+# 📋 Gestión de Formularios
+
+### Sistema de gestión de eventos y asistencia para SENA
+
+![Java](https://img.shields.io/badge/Java-19-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+[![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=flat&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
+[![Apache POI](https://img.shields.io/badge/Apache_POI-5.5.1-D22128?style=flat&logo=apache&logoColor=white)](https://poi.apache.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+[Características](#-características-clave) • [Instalación](#-instalación) • [Uso](#-uso-rápido) • [Tecnologías](#-tecnologías-utilizadas) • [Colaboradores](#-colaboradores)
+
+</div>
 
 ---
-**Gestión de Formulario** es un programa de escritorio que ayuda en el manejo y creación de formularios.
+
+## 📖 Descripción
+
+**Gestión de Formularios** es una aplicación de escritorio desarrollada en Java que facilita la creación y administración de formularios de registro para eventos en el **Servicio Nacional de Aprendizaje (SENA)**.
+
+## 🎯 Problemática
+
+Actualmente en el SENA, los eventos presentan un problema de duplicación de trabajo:  el registro inicial se realiza mediante formularios digitales (como Google Forms), pero la toma de asistencia el día del evento se hace en papel.  Esto genera:
+
+- ✘ Doble captura de datos (digital + papel)
+- ✘ Retraso en la validación de asistencia
+- ✘ Mayor probabilidad de errores humanos
+- ✘ Tiempo excesivo de procesamiento para la oficina de bienestar
 
 ---
-## Problematica
-Nuestro sistema se basa en un problema real que se presenta en el _Servicio Nacional de Aprendizaje (Sena)_ el cual consiste en los largos tiempos que se necesitan para crear un formulario para los eventos, esto también incluye el registro de los participantes y toma de la asistencia el día del evento 
+
+## 🚀 Características clave
+
+-  **Sistema de roles** - Login para Administrador e Invitado
+-  **Gestión completa de eventos** - Crear, modificar y eliminar eventos
+-  **Registro detallado de asistentes** - Captura de datos completos
+-  **Marcado de asistencia** - Sistema de checkbox con validación
+-  **Exportación a Excel** - Reportes listos para análisis
+-  **Notificaciones automáticas** - Recordatorios por correo (SMTP Gmail)
+-  **Interfaz intuitiva** - Diseño amigable con Java Swing
 
 ---
-# Características clave
-- Login con roles (Administrador/Invitado).
-- Gestión de eventos y formularios.
-- Registro de asistentes con datos completos.
-- Marcado de asistencia (checkbox) y exportación a Excel.
-- Recordatorio por correo 1 día antes (SMTP Gmail).
+
+## 🛠️ Tecnologías utilizadas
+
+| Categoría | Tecnología | Versión |
+|-----------|------------|---------|
+| **Lenguaje** | Java | 19 |
+| **Build Tool** | Maven | - |
+| **Librería Office** | Apache POI | 5.5.1 |
+| **Librería OOXML** | Apache POI OOXML | 5.5.1 |
+| **GUI** | Java Swing | Nativa |
+| **Tipo** | Aplicación de escritorio | JAR |
 
 ---
-# Tecnologías utilizadas
-- **Lenguaje:** Java 19
-- **Build Tool:** Maven
-- **Librería principal:** Apache POI (manipulación de Excel/Office)
-- **Tipo:** Aplicación de escritorio (JAR)
+
+## 📁 Arquitectura y módulos
+
+### Vista (Swing)
+- `iLogin` - Pantalla de inicio y selección de rol
+- `iAdminEvento` - Panel de administración de eventos
+- `iInvitado` - Vista para usuarios invitados
+- `iFormulario*` - Formularios de registro (Aprendiz/Externo)
+
+### Servicios (Service Layer)
+- `GestorEventos` - Lógica de gestión de eventos
+- `GestorRegistros` - Control de registros y asistentes
+- `NotificacionService` - Sistema de notificaciones
+- `SchedulerService` - Programación de tareas automáticas
+- `EmailService` - Envío de correos SMTP
+- `ExportadorExcel` - Generación de archivos Excel
+
+### Modelos (Domain)
+- `Evento` - Entidad de evento
+- `Registro` - Entidad de registro de asistente
 
 ---
-# Arquitectura y módulos
 
-- [Vista (Swing](#view): iLogin, iAdminEvento, iInvitado, iFormulario*.
-- [Servicios](#service): GestorEventos, GestorRegistros, NotificacionService, SchedulerService, EmailService, ExportadorExcel.
-- [Modelos](#model): Evento, Registro.
-- Build: Maven, Java 19.
----
-# Instalación y ejecución
+## 📥 Instalación
 
+### Requisitos previos
+
+Asegúrate de tener instalado: 
+
+- ☕ **Java JDK 19** o superior - [Descargar](https://www.oracle.com/java/technologies/downloads/#java19)
+- 📦 **Maven 3.6+** - [Descargar](https://maven.apache.org/download.cgi)
+- 📧 **Cuenta Gmail** (para configurar SMTP y envío de correos)
+
+### Pasos de instalación
+
+1. **Clonar el repositorio**
+```bash
+git clone https://github.com/Louis-Du/GestionFormulario.git
+cd GestionFormulario
 ```
-git clone https://github.com/Louis-DU/GestionFormulario.git
+
+2. **Compilar el proyecto**
+```bash
 mvn clean package
-java -jar target/GestionFormulario2-*.jar
 ```
-(Opcional) Ejecutar desde IDE.
 
-## Uso rápido
+3. **Ejecutar la aplicación**
+```bash
+java -jar target/GestionFormulario2-1.0-SNAPSHOT.jar
+```
 
-Pasos: abrir app, login, crear evento, compartir formulario, marcar asistencia, exportar Excel.
-
-
+**Alternativa:** Abrir el proyecto en tu IDE favorito (NetBeans, IntelliJ IDEA, Eclipse) y ejecutar la clase principal.
 
 ---
-## Colaboradores
+
+## 🎮 Uso rápido
+
+### Flujo básico
+
+1. **Abrir la aplicación** y seleccionar tu rol (Administrador/Invitado)
+2. **Crear un evento** (solo Administrador)
+   - Ingresar nombre, fecha, lugar y código de asistencia
+3. **Compartir el formulario** con los participantes
+4. Los participantes **completan su registro**
+5. **Marcar asistencia** el día del evento usando el código
+6. **Exportar los datos** a Excel para generar reportes
+
+### Capturas de pantalla
+
+Descomentar cuando agregues las imágenes: 
+#### Pantalla de Login
+![Login](Documents/Imagens/FrameLogin.png)
+
+#### Panel de Invitado
+![Invitado Panel](Documents/Imagens/FrameInvitado.png)
+
+#### Formulario de Registro
+![Formulario](Documents/Imagens/FrameRegistro.png)
+
+---
+
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT.  Consulta el archivo `LICENSE` para más detalles.
+
+---
+
+## 👥 Colaboradores
 
 <table>
   <tr>
     <td align="center">
       <a href="https://github.com/eljavi0">
-        <img src="https://github.com/eljavi0.png" width="80" /><br />
+        <img src="https://github.com/eljavi0.png" width="100" style="border-radius: 50%" /><br />
         <sub><b>eljavi0</b></sub>
-      </a>
+      </a><br />
+      <sub>Desarrollador</sub>
     </td>
     <td align="center">
       <a href="https://github.com/Louis-Du">
-        <img src="https://github.com/Louis-Du.png" width="80" /><br />
+        <img src="https://github.com/Louis-Du.png" width="100" style="border-radius:50%" /><br />
         <sub><b>Louis-Du</b></sub>
-      </a>
+      </a><br />
+      <sub>Desarrollador</sub>
     </td>
     <td align="center">
       <a href="https://github.com/lukasa133">
-        <img src="https://github.com/lukasa133.png" width="80" /><br />
+        <img src="https://github.com/lukasa133.png" width="100" style="border-radius:50%" /><br />
         <sub><b>lukasa133</b></sub>
-      </a>
+      </a><br />
+      <sub>Desarrollador</sub>
     </td>
   </tr>
 </table>
+
+---
+
+<div align="center">
+
+**⭐ Si este proyecto te fue útil, considera darle una estrella en GitHub ⭐**
+
+</div>
