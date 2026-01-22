@@ -2,6 +2,8 @@ package com.mycompany.gestionformulario2;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.mycompany.gestionformulario2.view.iLogin;
+import com.mycompany.gestionformulario2.service.SchedulerService;
 
 /**
  * Clase principal del sistema de gestión de formularios y eventos.

@@ -1,37 +1,70 @@
-# GeneradorFormularios
+# Gestión de Formulario 
 
-Problema
---------
-En los eventos actualmente se registra a los asistentes con formularios digitales (por ejemplo Google Forms) pero la asistencia se toma en papel el día del evento. Esto provoca trabajo duplicado, procesos lentos y errores al generar informes (cantidad de asistentes, tipo de asistentes, programas y fichas de aprendices SENA, etc.).
+---
+**Gestión de Formulario** es un programa de escritorio que ayuda en el manejo y creación de formularios.
 
-Qué resolvemos
---------------
-Desarrollamos una aplicación para centralizar el registro y el control de asistencia de eventos:
+---
+## Problematica
+Nuestro sistema se basa en un problema real que se presenta en el _Servicio Nacional de Aprendizaje (Sena)_ el cual consiste en los largos tiempos que se necesitan para crear un formulario para los eventos, esto también incluye el registro de los participantes y toma de la asistencia el día del evento 
 
-- El organizador crea el evento (nombre, fecha, lugar y código de asistencia).
-- Se generan formularios para aprendices SENA y para personas externas.
-- Los participantes se registran desde los formularios y reciben correo de confirmación.
-- El día del evento los asistentes confirman su asistencia mediante un enlace protegido con el código del organizador.
-- Se envían recordatorios 1 día antes y se pueden exportar registros y asistencias a hojas de cálculo (CSV/XLSX).
+---
+# Características clave
+- Login con roles (Administrador/Invitado).
+- Gestión de eventos y formularios.
+- Registro de asistentes con datos completos.
+- Marcado de asistencia (checkbox) y exportación a Excel.
+- Recordatorio por correo 1 día antes (SMTP Gmail).
 
-Beneficios
----------
-- Elimina la doble captura (digital + papel).
-- Acelera la validación de asistencia.
-- Facilita la generación de reportes por programa, ficha y tipo de asistente.
-- Reduce errores y el tiempo de procesamiento para la oficina de bienestar.
+---
+# Tecnologías utilizadas
+- **Lenguaje:** Java 19
+- **Build Tool:** Maven
+- **Librería principal:** Apache POI (manipulación de Excel/Office)
+- **Tipo:** Aplicación de escritorio (JAR)
 
-Flujo básico
------------
-1. El organizador crea el evento y genera un código de asistencia.
-2. Los participantes (aprendices o externos) completan su registro mediante el formulario correspondiente.
-3. El día del evento, con el código, se confirma la asistencia desde el enlace enviado.
-4. Los datos se pueden exportar para generar informes.
+---
+# Arquitectura y módulos
 
-Siguiente paso
---------------
-Implementar la aplicación (backend, frontend, envío de correos y exportación CSV/XLSX) según el stack elegido.
+- [Vista (Swing](#view): iLogin, iAdminEvento, iInvitado, iFormulario*.
+- [Servicios](#service): GestorEventos, GestorRegistros, NotificacionService, SchedulerService, EmailService, ExportadorExcel.
+- [Modelos](#model): Evento, Registro.
+- Build: Maven, Java 19.
+---
+# Instalación y ejecución
 
-Contacto
---------
-Abre un issue en el repositorio para comentar o proponer cambios.
+```git clone https://github.com/Louis-DU/GestionFormulario.git
+mvn clean package
+java -jar target/GestionFormulario2-*.jar```
+(Opcional) Ejecutar desde IDE.
+
+## Uso rápido
+
+Pasos: abrir app, login, crear evento, compartir formulario, marcar asistencia, exportar Excel.
+
+
+
+---
+## Colaboradores
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/eljavi0">
+        <img src="https://github.com/eljavi0.png" width="80" /><br />
+        <sub><b>eljavi0</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Louis-Du">
+        <img src="https://github.com/Louis-Du.png" width="80" /><br />
+        <sub><b>Louis-Du</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/lukasa133">
+        <img src="https://github.com/lukasa133.png" width="80" /><br />
+        <sub><b>lukasa133</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
