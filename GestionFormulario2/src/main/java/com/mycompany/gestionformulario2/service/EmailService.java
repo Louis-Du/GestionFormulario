@@ -40,20 +40,10 @@ public class EmailService {
   // Configuración SMTP de Gmail
   private final Properties properties;
 
-  /**
-   * Constructor que inicializa el servicio con credenciales configuradas.
-   * Las credenciales están hardcodeadas directamente en el código.
-   * 
-   * ⚠️ ADVERTENCIA DE SEGURIDAD:
-   * En producción, NUNCA hardcodees credenciales en el código.
-   * Usa variables de entorno o sistemas de gestión de secretos.
-   */
   public EmailService() {
-    // ⚠️ CAMBIAR ESTOS VALORES CON TUS CREDENCIALES
     this.emailUser = "correodepruebadenotificacion@gmail.com"; // Tu correo Gmail
     this.emailPass = "ihot yxqs abfu wewp"; // Tu App Password (16 caracteres)
 
-    // Validar credenciales
     if (emailUser == null || emailPass == null || emailUser.trim().isEmpty() || emailPass.trim().isEmpty() ||
         emailUser.equals("correodepruebadenotificacion@gmail.com") || emailPass.equals("ihot yxqs abfu wewp")) {
       LOGGER.log(Level.WARNING,
@@ -71,14 +61,6 @@ public class EmailService {
     properties.put("mail.smtp.timeout", "10000");
   }
 
-  /**
-   * Envía un correo electrónico a un destinatario.
-   * 
-   * @param destinatario Dirección de correo electrónico del destinatario
-   * @param asunto       Asunto del correo
-   * @param mensaje      Cuerpo del mensaje en texto plano
-   * @return true si el envío fue exitoso, false en caso contrario
-   */
   public boolean enviarCorreo(String destinatario, String asunto, String mensaje) {
     // Validar parámetros de entrada
     if (destinatario == null || destinatario.trim().isEmpty()) {

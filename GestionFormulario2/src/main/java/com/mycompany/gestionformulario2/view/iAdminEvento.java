@@ -23,26 +23,11 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-/**
- * Interfaz gráfica de administración de eventos.
- * Permite al administrador:
- * - Crear nuevos eventos con formularios personalizados
- * - Visualizar la lista de registros de asistentes
- * - Gestionar la información de los eventos y sus participantes
- * Esta ventana muestra una tabla con todos los registros de asistencia.
- */
 public class iAdminEvento extends javax.swing.JFrame {
 
-  /**
-   * Constructor que inicializa la ventana de administración de eventos.
-   * Configura la tabla de registros con sus columnas y carga los datos
-   * existentes.
-   */
-  // Bandera para evitar cascada de mensajes en este JFrame
   private boolean mostrandoError = false;
 
   public iAdminEvento() {
-    // Inicializa todos los componentes visuales
     initComponents();
 
     txtFechaHora.setEditable(false);
@@ -65,11 +50,8 @@ public class iAdminEvento extends javax.swing.JFrame {
       cargarRegistrosPorEvento(GestorEventos.getEventoActivo().getNombre());
     }
 
-    // Maximiza la ventana
     this.setExtendedState(iLogin.MAXIMIZED_BOTH);
-    // Hace visible la ventana
     this.setVisible(true);
-    // Validación inmediata por foco para creación de eventos
     configurarValidacionCrearEvento();
   }
 
@@ -81,10 +63,6 @@ public class iAdminEvento extends javax.swing.JFrame {
   private javax.swing.JLabel lblSelectorEvento;
   private javax.swing.JButton btnExportarExcel;
 
-  /**
-   * Configura validación por foco para los campos del diálogo de creación de
-   * evento.
-   */
   private void configurarValidacionCrearEvento() {
     txtNombreEvento.addFocusListener(new java.awt.event.FocusAdapter() {
       @Override
@@ -157,18 +135,10 @@ public class iAdminEvento extends javax.swing.JFrame {
     });
   }
 
-  /**
-   * Valida que el texto sea válido para un nombre de evento.
-   * Debe tener al menos 5 caracteres y no estar vacío.
-   */
   private boolean esNombreValido(String texto) {
     return texto != null && texto.trim().length() >= 5;
   }
 
-  /**
-   * Valida que el código de asistencia sea válido: alfanumérico, sin espacios,
-   * mínimo 4.
-   */
   private boolean esCodigoValido(String codigo) {
     if (codigo == null)
       return false;
@@ -446,7 +416,7 @@ public class iAdminEvento extends javax.swing.JFrame {
             r.getCorreo(),
             r.getFechaHoraRegistro(),
             r.getEstado(),
-            asistio // Nueva columna: Asistió
+            asistio
         });
       }
     }
@@ -584,7 +554,6 @@ public class iAdminEvento extends javax.swing.JFrame {
     // Carga el archivo Excel desde los recursos del proyecto
     InputStream inputStream = getClass().getResourceAsStream("/Formulario.xlsx");
 
-    // Verifica si el archivo existe
     if (inputStream == null) {
       JOptionPane.showMessageDialog(this, "No se encontró el archivo Excel.");
       return;
@@ -594,49 +563,28 @@ public class iAdminEvento extends javax.swing.JFrame {
     JTable tabla = ExcelViewer.cargarExcelEnTabla(inputStream);
 
     if (tabla != null) {
-      // Coloca la tabla en el contenedor con scroll
       jScrollPane1.setViewportView(tabla);
 
-      // Desactiva el ajuste automático de columnas
       tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-      // Establece la altura de las filas en píxeles
       tabla.setRowHeight(25);
 
-      // Ajusta el ancho de las columnas según el contenido
       ajustarColumnas(tabla);
     } else {
       JOptionPane.showMessageDialog(this, "No se pudo cargar el Excel.");
     }
   }
 
-  /**
-   * Método llamado al presionar el botón "Volver".
-   * Regresa a la ventana de login y cierra la ventana actual.
-   */
   private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVolverActionPerformed
-    // Crea una nueva instancia de la ventana de login
     iLogin iLogin = new iLogin();
-    // Muestra la ventana de login
     iLogin.setVisible(true);
-    // Oculta la ventana actual de administración
     this.setVisible(false);
   }// GEN-LAST:event_btnVolverActionPerformed
 
-  /**
-   * Método llamado al presionar el botón "Cancelar" en el diálogo de creación.
-   * Muestra un cuadro de confirmación antes de cancelar la creación del evento.
-   */
   private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelarActionPerformed
-    // Muestra diálogo de confirmación con opciones OK/Cancelar
     int resultado = JOptionPane.showConfirmDialog(this, "¿Estás seguro que deseas cancelar la cración del formulario?",
         "Cancelación de formulario", JOptionPane.OK_CANCEL_OPTION);
     if (resultado == JOptionPane.OK_OPTION) {
-      // El usuario confirmó la cancelación
-
-      // Cierra y libera recursos del diálogo de creación
       jDialogCrearEvento.dispose();
-
-      // Registra en consola la acción realizada
       System.out.println("Creación de formulario CANCELADA por el usuario.");
     }
   }// GEN-LAST:event_btnCancelarActionPerformed
