@@ -11,22 +11,9 @@ import com.mycompany.gestionformulario2.model.Evento;
 import com.mycompany.gestionformulario2.model.Registro;
 
 /**
- * Servicio de notificaciones por correo electrónico para eventos.
- * 
- * Responsabilidades:
  * - Verificar eventos próximos y enviar recordatorios N días antes
  * - Evitar envío de correos duplicados mediante flags en Registro
  * - Registrar todas las acciones en el log
- * 
- * Lógica de notificaciones:
- * 1. Recordatorio: Se envía 1 día antes del evento
- * 
- * Formato de fechas esperado en Evento:
- * - "yyyy-MM-dd HH:mm" (ejemplo: "2026-01-25 14:30")
- * - Compatible con el formato generado por JDateChooser en iAdminEvento
- * 
- * @author Sistema de Gestión de Formularios
- * @version 2.0
  */
 public class NotificacionService {
 
@@ -37,9 +24,6 @@ public class NotificacionService {
 
   private final EmailService emailService;
 
-  /**
-   * Constructor que inicializa el servicio con un EmailService.
-   */
   public NotificacionService() {
     this.emailService = new EmailService();
 
@@ -64,10 +48,8 @@ public class NotificacionService {
       return;
     }
 
-    // Obtener fecha actual
     LocalDate hoy = LocalDate.now();
 
-    // Obtener todos los eventos
     List<Evento> eventos = GestorEventos.obtenerEventos();
 
     if (eventos == null || eventos.isEmpty()) {
@@ -90,12 +72,6 @@ public class NotificacionService {
     LOGGER.log(Level.INFO, "Procesamiento de notificaciones finalizado.");
   }
 
-  /**
-   * Procesa un evento específico para enviar notificaciones.
-   * 
-   * @param evento Evento a procesar
-   * @param hoy    Fecha actual
-   */
   private void procesarEvento(Evento evento, LocalDate hoy) {
     // Obtener fecha del evento
     LocalDate fechaEvento = parsearFechaEvento(evento.getFechaHora());
@@ -110,7 +86,6 @@ public class NotificacionService {
     // Calcular fecha de recordatorio (1 día antes)
     LocalDate fechaRecordatorio = fechaEvento.minusDays(DIAS_RECORDATORIO);
 
-    // Obtener todos los registros del evento
     List<Registro> registros = GestorRegistros.obtenerRegistros();
 
     int recordatoriosEnviados = 0;
@@ -138,14 +113,6 @@ public class NotificacionService {
     }
   }
 
-  /**
-   * Envía correo de recordatorio a un asistente.
-   * 
-   * @param registro    Registro del asistente
-   * @param evento      Evento al que está registrado
-   * @param fechaEvento Fecha del evento
-   * @return true si el envío fue exitoso
-   */
   private boolean enviarRecordatorio(Registro registro, Evento evento, LocalDate fechaEvento) {
     String destinatario = registro.getCorreo();
     String asunto = "Recordatorio evento: " + evento.getNombre();
@@ -166,10 +133,6 @@ public class NotificacionService {
 
   /**
    * Parsea la fecha/hora del evento al formato LocalDate.
-   * Soporta múltiples formatos comunes.
-   * 
-   * @param fechaHoraStr String con fecha y hora
-   * @return LocalDate o null si no se pudo parsear
    */
   private LocalDate parsearFechaEvento(String fechaHoraStr) {
     if (fechaHoraStr == null || fechaHoraStr.trim().isEmpty()) {
@@ -210,9 +173,6 @@ public class NotificacionService {
   /**
    * Método de utilidad para probar el servicio de notificaciones.
    * Envía un correo de prueba al destinatario especificado.
-   * 
-   * @param destinatario Email de destino
-   * @return true si el envío fue exitoso
    */
   public boolean enviarCorreoPrueba(String destinatario) {
     String asunto = "Prueba del Sistema de Notificaciones";

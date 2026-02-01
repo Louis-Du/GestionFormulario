@@ -14,22 +14,12 @@ import com.mycompany.gestionformulario2.model.Evento;
 import com.mycompany.gestionformulario2.model.Registro;
 import com.mycompany.gestionformulario2.service.GestorRegistros;
 
-/**
- * Formulario único para registro de invitados (Aprendices y Personas Externas).
- * Permite capturar todos los datos necesarios para registrar la asistencia a un
- * evento.
- */
 public class iFormularioInvitado extends javax.swing.JFrame {
 
   private Evento eventoSeleccionado;
   // Bandera para evitar cascada de mensajes
   private boolean mostrandoError = false;
 
-  /**
-   * Constructor que recibe el evento al cual se registrará el invitado.
-   * 
-   * @param evento Evento seleccionado desde iInvitado
-   */
   public iFormularioInvitado(Evento evento) {
     this.eventoSeleccionado = evento;
     initComponents();
@@ -38,9 +28,6 @@ public class iFormularioInvitado extends javax.swing.JFrame {
     configurarValidacionTiempoReal();
   }
 
-  /**
-   * Carga los datos del evento en los campos de solo lectura.
-   */
   private void cargarDatosEvento() {
     lblNombreEvento.setText(eventoSeleccionado.getNombre());
     lblFechaEvento.setText(eventoSeleccionado.getFechaHora());

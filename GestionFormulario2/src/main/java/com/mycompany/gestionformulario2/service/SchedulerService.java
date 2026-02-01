@@ -6,28 +6,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Servicio programador de tareas para el procesamiento automático de
- * notificaciones.
- * 
- * Responsabilidades:
- * - Ejecutar verificación de notificaciones periódicamente (cada 1 hora)
- * - Gestionar el ciclo de vida del executor (iniciar/detener)
- * - Manejar errores sin detener el scheduler
- * 
- * Características:
- * - Usa ScheduledExecutorService de Java concurrency
- * - Ejecuta en un hilo separado (no bloquea la UI)
- * - Primera ejecución inmediata al iniciar
- * - Continúa ejecutándose mientras la aplicación esté abierta
- * 
- * Configuración:
- * - Intervalo: 1 hora (3600 segundos)
- * - Delay inicial: 30 segundos (para permitir inicialización completa)
- * 
- * @author Sistema de Gestión de Formularios
- * @version 1.0
- */
 public class SchedulerService {
 
   private static final Logger LOGGER = Logger.getLogger(SchedulerService.class.getName());
@@ -41,9 +19,6 @@ public class SchedulerService {
   private final ScheduledExecutorService scheduler;
   private final NotificacionService notificacionService;
 
-  /**
-   * Constructor que inicializa el scheduler y el servicio de notificaciones.
-   */
   public SchedulerService() {
     // Crear executor con un solo hilo
     this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
@@ -83,8 +58,6 @@ public class SchedulerService {
 
   /**
    * Ejecuta la tarea de procesamiento de notificaciones.
-   * Envuelve la ejecución en try-catch para evitar que errores detengan el
-   * scheduler.
    */
   private void ejecutarTarea() {
     try {

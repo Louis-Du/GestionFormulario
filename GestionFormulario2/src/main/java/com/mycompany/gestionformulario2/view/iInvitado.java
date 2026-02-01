@@ -14,10 +14,6 @@ public class iInvitado extends javax.swing.JFrame {
   private DefaultTableModel modeloEventos;
   private java.util.List<Evento> eventosLista;
 
-  /**
-   * Constructor que inicializa la ventana de invitado.
-   * Configura los componentes visuales y maximiza la ventana.
-   */
   public iInvitado() {
     initComponents();
     this.setExtendedState(iInvitado.MAXIMIZED_BOTH);
